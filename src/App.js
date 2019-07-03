@@ -419,7 +419,7 @@ class App extends Component {
         <hr />
 
         <div className="row" style={{ margin: 0 }}>
-          <div className="col-sm-3" style={{ borderRight: "2px solid black" }}>
+          <div className="col-xl-3" style={{ borderRight: "2px solid black" }}>
             <div className="TasksToDoHeader">
               <h2>Tasks to do ({this.state.tasks.length})</h2>{" "}
               <h6>
@@ -450,7 +450,7 @@ class App extends Component {
             <div className="TasksToDoContainers">{tasks}</div>
           </div>
 
-          <div className="col-sm-3" style={{ borderRight: "2px solid black" }}>
+          <div className="col-xl-3" style={{ borderRight: "2px solid black" }}>
             <div className="TasksToDoHeader">
               <h2>Developing ({this.state.devTasks.length})</h2>{" "}
               <h3
@@ -466,7 +466,7 @@ class App extends Component {
             <div className="TasksToDoContainers">{devTasks}</div>
           </div>
 
-          <div className="col-sm-3" style={{ borderRight: "2px solid black" }}>
+          <div className="col-xl-3" style={{ borderRight: "2px solid black" }}>
             <div className="TasksToDoHeader">
               <h2>Veryfing ({this.state.verifyTasks.length})</h2>{" "}
               <h3
@@ -482,7 +482,7 @@ class App extends Component {
             <div className="TasksToDoContainers">{verifyTasks}</div>
           </div>
 
-          <div className="col-sm-3">
+          <div className="col-xl-3">
             <div className="TasksToDoHeader">
               <h2>Tasks Done ({this.state.done.length})</h2>{" "}
               <button
@@ -556,7 +556,7 @@ const DevTasks = props => {
           {props.priority ? props.name.toUpperCase() : props.name}
           <br />
         </h4>
-        <i> {props.date ? `passed at: ${props.date}` : props.date}</i>
+        <i> {props.date ? `passed: ${props.date}` : props.date}</i>
       </div>
     </div>
   );
@@ -578,7 +578,7 @@ const VerifiedTasks = props => {
           {props.priority ? props.name.toUpperCase() : props.name}
           <br />
         </h4>
-        <i> {props.date ? `passed at: ${props.date}` : props.date}</i>
+        <i> {props.date ? `passed: ${props.date}` : props.date}</i>
       </div>
     </div>
   );
@@ -600,7 +600,7 @@ const TaskDone = props => {
           {props.priority ? props.name.toUpperCase() : props.name}
           <br />
         </h4>
-        <i> {props.date ? `done at: ${props.date}` : props.date}</i>
+        <i> {props.date ? `done: ${props.date}` : props.date}</i>
       </div>
     </div>
   );
