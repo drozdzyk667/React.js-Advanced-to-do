@@ -1,0 +1,354 @@
+.App {
+  text-align: center;
+}
+
+.InputArea {
+  padding-top: 50px;
+  display: inline-block;
+}
+
+.priority {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+  padding: 2px;
+  border: 2px dashed red;
+}
+
+.standard {
+  color: white;
+  font-family: "Kalam", cursive;
+}
+
+h4 {
+  margin-top: 10px;
+  padding: 4px;
+  margin-bottom: 30px;
+  overflow-wrap: break-word;
+}
+
+.doneTaskList {
+  color: green;
+  text-decoration-line: line-through;
+  overflow-wrap: break-word;
+  padding: 20px 30px 0px 30px;
+}
+
+.singleTask {
+  position: relative;
+  width: 270px;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 2vw;
+  display: inline-block;
+  border: 2px solid black;
+  box-shadow: 0px 0px 10px 1px black;
+}
+
+.TasksToDoHeader {
+  padding: 20px;
+  padding-bottom: 50px;
+}
+
+.TasksToDoContainers {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.control-buttons {
+  text-align: end;
+  margin-top: -10px;
+  padding-bottom: 15px;
+}
+
+.singleTask p {
+  position: absolute;
+  top: 10px;
+  left: 18px;
+  font-size: 15px;
+  font-family: "Audiowide", cursive;
+  border-bottom: 2px solid rgb(0, 140, 255);
+  border-block-end-style: groove;
+}
+
+.inp {
+  position: relative;
+
+  margin: 80px auto 10px auto;
+  width: 100%;
+  max-width: 280px;
+  .label {
+    position: absolute;
+    top: 16px;
+    left: 0;
+    font-size: 18px;
+    color: #9098a9;
+    font-weight: 500;
+    transform-origin: 0 0;
+    transition: all 0.2s ease;
+  }
+  .border {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: #0077ff;
+    transform: scaleX(0);
+    transform-origin: 0 0;
+    transition: all 0.15s ease;
+  }
+  input {
+    width: 100%;
+    border: 0;
+    font-family: inherit;
+    padding: 20px 10px 10px;
+    height: 48px;
+    font-size: 20px;
+    font-weight: 500;
+    border-bottom: 2px solid #c8ccd4;
+    background: none;
+    border-radius: 0;
+    color: #223254;
+    transition: all 0.15s ease;
+    &:hover {
+      background: rgba(#223254, 0.03);
+    }
+    &:not(:placeholder-shown) {
+      + span {
+        color: #5a667f;
+        transform: translateY(-30px) scale(0.75);
+      }
+    }
+    &:focus {
+      background: none;
+      outline: none;
+      border-bottom: 2px solid #0077ff;
+      + span {
+        color: #0077ff;
+        transform: translateY(-35px) scale(0.75);
+        .border {
+          transform: scaleX(1);
+        }
+      }
+    }
+  }
+}
+
+$color: #3694d7;
+$timing: 0.3s;
+
+.dropdown-el {
+  margin-top: 20vh;
+
+  min-width: 12em;
+  position: relative;
+  display: inline-block;
+  margin-right: 1em;
+  min-height: 2em;
+  max-height: 2em;
+  overflow: hidden;
+  top: 0.5em;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  color: #444;
+
+  outline: none;
+  border: 0.06em solid transparent;
+  border-radius: 1em;
+  background-color: mix($color, #fff, 25%);
+
+  transition: $timing all ease-in-out;
+  input:focus + label {
+    background: #def;
+  }
+  input {
+    width: 1px;
+    height: 1px;
+    display: inline-block;
+    position: absolute;
+    opacity: 0.01;
+  }
+  label {
+    border-top: 0.06em solid #d9d9d9;
+    display: block;
+    height: 2em;
+    line-height: 2em;
+    padding-left: 1em;
+    padding-right: 3em;
+    cursor: pointer;
+    position: relative;
+    transition: $timing color ease-in-out;
+    &:nth-child(2) {
+      margin-top: 2em;
+      border-top: 0.06em solid #d9d9d9;
+    }
+  }
+  input:checked + label {
+    display: block;
+    border-top: none;
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    &:nth-child(2) {
+      margin-top: 0;
+      position: relative;
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0.8em;
+    top: 0.9em;
+    border: 0.3em solid $color;
+    border-color: $color transparent transparent transparent;
+    transition: 0.4s all ease-in-out;
+  }
+  &.expanded {
+    border: 0.06em solid $color;
+    background: #fff;
+    border-radius: 0.25em;
+    padding: 0;
+    box-shadow: rgba(0, 0, 0, 0.1) 3px 3px 5px 0px;
+    max-height: 15em;
+
+    label {
+      border-top: 0.06em solid #d9d9d9;
+      &:hover {
+        color: $color;
+      }
+    }
+    input:checked + label {
+      color: $color;
+    }
+
+    &::after {
+      transform: rotate(-180deg);
+      top: 0.55em;
+    }
+  }
+}
+
+.selectBox {
+  position: relative;
+
+  b {
+    position: absolute;
+    left: -25px;
+    top: -42px;
+  }
+
+  select {
+    position: absolute;
+    left: -15px;
+    top: -15px;
+    padding: 4px;
+    font-size: 16px;
+    border-radius: 10px;
+    color: rgb(255, 255, 255);
+    outline: none;
+    cursor: pointer;
+    width: 100px;
+
+    &:hover {
+      background: #444343d2;
+    }
+
+    option {
+      background: white;
+      color: black;
+    }
+  }
+}
+.deadlineDate {
+  text-align: right;
+  margin-left: 150px;
+  position: absolute;
+  top: 10px;
+
+  p {
+    text-align: left;
+    padding: 0;
+    margin: 0;
+  }
+  input[type="date"] {
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 3px 5px;
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
+    width: 160px;
+
+    background: #fff
+      url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)
+      97% 50% no-repeat;
+  }
+  [type="date"]::-webkit-inner-spin-button {
+    display: none;
+  }
+  [type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+  }
+}
+
+/* .squaredCheckbox */
+.squaredCheckbox {
+  width: 20px;
+  position: relative;
+  margin: 5px 0px 20px 200px;
+}
+.squaredCheckbox label {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 4px;
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5),
+    0px 1px 0px rgba(255, 255, 255, 0.4);
+}
+.squaredCheckbox label:after {
+  content: "";
+  width: 13px;
+  height: 7px;
+  position: absolute;
+  top: 5px;
+  left: 4px;
+  border: 3px solid #0c0c0c;
+  border-top: none;
+  border-right: none;
+  background: transparent;
+  opacity: 0;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+.squaredCheckbox input[type="checkbox"] {
+  visibility: hidden;
+}
+
+.squaredCheckbox i {
+  font-size: 14px;
+  position: absolute;
+  left: -10px;
+  top: -1px;
+  width: 150px;
+}
+
+.squaredCheckbox input[type="checkbox"]:checked + label:after {
+  opacity: 1;
+}
+
+#addBtn {
+  width: 150px;
+  margin-right: 80px;
+  transition: 0.5s;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
