@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./App.scss";
+import workTable from "./work-table.png";
 
 class App extends Component {
   state = {
@@ -152,7 +153,7 @@ class App extends Component {
               type: tasks[index].type,
               taskColor: tasks[index].taskColor
             }
-          ].sort(this.sortToDoTasks("priority"))
+          ]
         });
 
         tasks.splice(index, 1);
@@ -252,34 +253,40 @@ class App extends Component {
     this.setState({
       taskType: e.target.value
     });
-    if (e.target.value === "family") {
-      this.setState({
-        taskColor: { backgroundColor: "#57A1C4" }
-      });
-    } else if (e.target.value === "home") {
-      this.setState({
-        taskColor: { backgroundColor: "#9370DB" }
-      });
-    } else if (e.target.value === "work") {
-      this.setState({
-        taskColor: { backgroundColor: "#CBC8C8" }
-      });
-    } else if (e.target.value === "car") {
-      this.setState({
-        taskColor: { backgroundColor: "#92C1FF" }
-      });
-    } else if (e.target.value === "food") {
-      this.setState({
-        taskColor: { backgroundColor: "#68D384" }
-      });
-    } else if (e.target.value === "school") {
-      this.setState({
-        taskColor: { backgroundColor: "#E5AE3A" }
-      });
-    } else if (e.target.value === "others") {
-      this.setState({
-        taskColor: { backgroundColor: "#8F9A9F" }
-      });
+
+    switch (e.target.value) {
+      case "family":
+        return this.setState({
+          taskColor: { backgroundColor: "#57A1C4" }
+        });
+      case "home":
+        return this.setState({
+          taskColor: { backgroundColor: "#9370DB" }
+        });
+      case "work":
+        return this.setState({
+          taskColor: { backgroundColor: "#CBC8C8" }
+        });
+      case "car":
+        return this.setState({
+          taskColor: { backgroundColor: "#92C1FF" }
+        });
+      case "food":
+        return this.setState({
+          taskColor: { backgroundColor: "#68D384" }
+        });
+      case "school":
+        return this.setState({
+          taskColor: { backgroundColor: "#E5AE3A" }
+        });
+      case "others":
+        return this.setState({
+          taskColor: { backgroundColor: "#8F9A9F" }
+        });
+      default:
+        return this.setState({
+          taskColor: { backgroundColor: "black" }
+        });
     }
   };
 
@@ -342,9 +349,54 @@ class App extends Component {
     return (
       <div className="App">
         <div className="InputArea">
+          <h2>Your Scrum Board</h2>
+          <div className="inputField">
+            <label htmlFor="inp" className="inp">
+              <input
+                id="inp"
+                type="text"
+                name="draft"
+                value={this.state.draft}
+                onChange={this.handleInput}
+                maxLength="30"
+                placeholder="&nbsp;"
+              />
+              <span className="label">Input task</span>
+              <span className="border" />
+            </label>
+
+            <div className="squaredCheckbox">
+              <label htmlFor="checkb">
+                <input
+                  type="checkbox"
+                  id="checkb"
+                  checked={this.state.priority}
+                  onChange={this.handlePriority}
+                />
+                <label htmlFor="mark" />
+                <i>High priority</i>
+              </label>
+            </div>
+
+            <div className="AddBtnContainer">
+              <button
+                id="addBtn"
+                className="btn btn-primary"
+                onClick={this.handleAddTask}
+              >
+                Add ✚
+              </button>
+              <p>
+                {this.state.AddActive && this.state.draft === ""
+                  ? `Fill task field firstly`
+                  : null}
+              </p>
+            </div>
+          </div>
+
           <div className="selectBox">
             <label htmlFor="choice">
-              <b>Task type: </b>
+              <p>Task type: </p>
               <select
                 style={this.state.taskColor}
                 value={this.state.taskType}
@@ -361,6 +413,7 @@ class App extends Component {
               </select>
             </label>
           </div>
+
           <div className="deadlineDate">
             <label htmlFor="date">
               <p>Deadline date: </p>
@@ -374,54 +427,15 @@ class App extends Component {
               />
             </label>
           </div>
-          <label htmlFor="inp" className="inp">
-            <input
-              id="inp"
-              type="text"
-              name="draft"
-              value={this.state.draft}
-              onChange={this.handleInput}
-              maxLength="30"
-              placeholder="&nbsp;"
-            />
-            <span className="label">Input task</span>
-            <span className="border" />
-          </label>
 
-          <div className="squaredCheckbox">
-            <label htmlFor="checkb">
-              <input
-                type="checkbox"
-                id="checkb"
-                checked={this.state.priority}
-                onChange={this.handlePriority}
-              />
-              <label htmlFor="mark" />
-              <i>High priority</i>
-            </label>
-          </div>
-          <br />
-
-          <br />
-          <button
-            id="addBtn"
-            className="btn btn-primary"
-            onClick={this.handleAddTask}
-          >
-            Add ✚
-          </button>
-          <p style={{ color: "red" }}>
-            {this.state.AddActive && this.state.draft === ""
-              ? `Fill task field firstly`
-              : null}
-          </p>
+          <img src={workTable} alt="work-table" />
         </div>
         <hr />
 
         <div className="row" style={{ margin: 0 }}>
           <div className="col-xl-3" style={{ borderRight: "2px solid black" }}>
             <div className="TasksToDoHeader">
-              <h2>Tasks to do ({this.state.tasks.length})</h2>{" "}
+              <h2>To do ({this.state.tasks.length})</h2>{" "}
               <h6>
                 <i>(ordered by priority & task type)</i>
               </h6>
@@ -452,7 +466,7 @@ class App extends Component {
 
           <div className="col-xl-3" style={{ borderRight: "2px solid black" }}>
             <div className="TasksToDoHeader">
-              <h2>Developing ({this.state.devTasks.length})</h2>{" "}
+              <h2>Dev ({this.state.devTasks.length})</h2>{" "}
               <h3
                 style={
                   this.state.devTasks.length > 0
@@ -468,7 +482,7 @@ class App extends Component {
 
           <div className="col-xl-3" style={{ borderRight: "2px solid black" }}>
             <div className="TasksToDoHeader">
-              <h2>Veryfing ({this.state.verifyTasks.length})</h2>{" "}
+              <h2>Test ({this.state.verifyTasks.length})</h2>{" "}
               <h3
                 style={
                   this.state.verifyTasks.length > 0
@@ -484,7 +498,7 @@ class App extends Component {
 
           <div className="col-xl-3">
             <div className="TasksToDoHeader">
-              <h2>Tasks Done ({this.state.done.length})</h2>{" "}
+              <h2>Done ({this.state.done.length})</h2>{" "}
               <button
                 style={
                   this.state.done.length > 0
