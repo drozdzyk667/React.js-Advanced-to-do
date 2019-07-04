@@ -5,7 +5,7 @@ import workTable from "./work-table.png";
 class App extends Component {
   state = {
     draft: "",
-    taskType: "family",
+    taskType: "review",
     taskColor: { backgroundColor: "#57A1C4" },
     AddActive: false,
     priority: false,
@@ -28,7 +28,7 @@ class App extends Component {
         name: "buy petrol",
         priority: false,
         deadlineTask: "2019-08-22",
-        type: "car",
+        type: "doc",
         taskColor: { backgroundColor: "#92C1FF" }
       }
     ],
@@ -40,7 +40,7 @@ class App extends Component {
         name: "eat pumpkin",
         priority: false,
         doneAt: "2019-06-22, 11:48 PM",
-        type: "home",
+        type: "code",
         taskColor: { backgroundColor: "#9370DB" }
       }
     ]
@@ -125,7 +125,7 @@ class App extends Component {
         draft: "",
         priority: false,
         date: this.state.dateNow,
-        taskType: "family",
+        taskType: "review",
         taskColor: { backgroundColor: "#57A1C4" },
         AddActive: false
       });
@@ -255,27 +255,27 @@ class App extends Component {
     });
 
     switch (e.target.value) {
-      case "family":
+      case "review":
         return this.setState({
           taskColor: { backgroundColor: "#57A1C4" }
         });
-      case "home":
+      case "code":
         return this.setState({
           taskColor: { backgroundColor: "#9370DB" }
         });
-      case "work":
+      case "test":
         return this.setState({
           taskColor: { backgroundColor: "#CBC8C8" }
         });
-      case "car":
+      case "doc":
         return this.setState({
           taskColor: { backgroundColor: "#92C1FF" }
         });
-      case "food":
+      case "analyse":
         return this.setState({
           taskColor: { backgroundColor: "#68D384" }
         });
-      case "school":
+      case "ext":
         return this.setState({
           taskColor: { backgroundColor: "#E5AE3A" }
         });
@@ -403,12 +403,12 @@ class App extends Component {
                 onChange={this.handleSelect}
                 id="choice"
               >
-                <option value="family">Family</option>
-                <option value="home">Home</option>
-                <option value="work">Work</option>
-                <option value="car">Car</option>
-                <option value="food">Food</option>
-                <option value="school">School</option>
+                <option value="review">Review</option>
+                <option value="code">Code</option>
+                <option value="test">Test</option>
+                <option value="doc">Document</option>
+                <option value="analyse">Analysis</option>
+                <option value="ext">Extend</option>
                 <option value="others">Others</option>
               </select>
             </label>
