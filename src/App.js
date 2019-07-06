@@ -611,7 +611,7 @@ class App extends Component {
                   this.state.devTasks.length === 30 ? { color: "red" } : null
                 }
               >
-                To do ({this.state.devTasks.length})
+                Dev ({this.state.devTasks.length})
                 <i style={{ fontSize: "18px" }}>/30 </i>
               </h2>{" "}
               <h3
@@ -634,7 +634,7 @@ class App extends Component {
                   this.state.verifyTasks.length === 30 ? { color: "red" } : null
                 }
               >
-                To do ({this.state.verifyTasks.length})
+                Test ({this.state.verifyTasks.length})
                 <i style={{ fontSize: "18px" }}>/30 </i>
               </h2>{" "}
               <h3
@@ -655,7 +655,7 @@ class App extends Component {
               <h2
                 style={this.state.done.length === 30 ? { color: "red" } : null}
               >
-                To do ({this.state.done.length})
+                Done ({this.state.done.length})
                 <i style={{ fontSize: "18px" }}>/30 </i>
               </h2>{" "}
               <button
