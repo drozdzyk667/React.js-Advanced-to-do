@@ -73,7 +73,7 @@ class App extends Component {
     const date = new Date();
     const year = date.getFullYear();
     let month = date.getMonth() + 1;
-    let day = date.getDay();
+    let day = date.getDate();
 
     const time = date.toLocaleString("en-US", {
       hour: "numeric",
@@ -373,6 +373,16 @@ class App extends Component {
     });
   };
 
+  handleTasksPerPage = e => {
+    this.setState({
+      tasksPerPage: e.target.value,
+      currentPageTasks: 1,
+      currentPageDev: 1,
+      currentPageVerify: 1,
+      currentPageDone: 1
+    });
+  };
+
   render() {
     const { filterType, tasks, devTasks, verifyTasks, done } = this.state;
 
@@ -440,7 +450,7 @@ class App extends Component {
       tasksPerPage
     } = this.state;
 
-    // Logic for displaying current tasks in pagination
+    // Logic for displaying current tasks in pagination on each column
     const indexOfLastTasks = currentPageTasks * tasksPerPage;
     const indexOfFirstTasks = indexOfLastTasks - tasksPerPage;
     let current1 = [...filtertaskTasks];
@@ -461,7 +471,7 @@ class App extends Component {
     let current4 = [...filtertaskDone];
     const currentDone = current4.slice(indexOfFirstDone, indexOfLastDone);
 
-    // Logic for displaying page numbers
+    // Logic for displaying page numbers on each column
     const pageNumbers1 = [];
     for (let i = 1; i <= Math.ceil(current1.length / tasksPerPage); i++) {
       pageNumbers1.push(i);
@@ -686,25 +696,43 @@ class App extends Component {
           <img src={workTable} alt="work-table" />
         </div>
 
-        <div className="selectBox">
-          <label htmlFor="filter">
-            <p>Filter: </p>
-            <select
-              value={this.state.filterType}
-              onChange={this.handleFilterAll}
-              id="filter"
-            >
-              <option value="all">All</option>
-              <option value="review">Review</option>
-              <option value="code">Code</option>
-              <option value="test">Test</option>
-              <option value="doc">Document</option>
-              <option value="analyze">Analyze</option>
-              <option value="fix">Fix</option>
-              <option value="others">Others</option>
-            </select>
-          </label>
+        <div className="filtering">
+          <div className="selectBox">
+            <label htmlFor="filter">
+              <p>Filter by type: </p>
+              <select
+                value={this.state.filterType}
+                onChange={this.handleFilterAll}
+                id="filter"
+              >
+                <option value="all">All</option>
+                <option value="review">Review</option>
+                <option value="code">Code</option>
+                <option value="test">Test</option>
+                <option value="doc">Document</option>
+                <option value="analyze">Analyze</option>
+                <option value="fix">Fix</option>
+                <option value="others">Others</option>
+              </select>
+            </label>
+          </div>
+
+          <div className="selectBox">
+            <label htmlFor="tasksPerPage">
+              <p>Per Page: </p>
+              <select
+                value={this.state.tasksPerPage}
+                onChange={this.handleTasksPerPage}
+                id="tasksPerPage"
+              >
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+              </select>
+            </label>
+          </div>
         </div>
+
         <hr />
 
         <div className="row" style={{ margin: 0 }}>

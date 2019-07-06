@@ -452,6 +452,52 @@ h4 {
   }
 }
 
+.filtering {
+  display: flex;
+  justify-content: left;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  font-weight: 500;
+
+  .selectBox {
+    padding: 0px 20px 30px 20px;
+
+    select {
+      padding: 4px;
+      font-size: 16px;
+      border-radius: 10px;
+      color: rgb(0, 0, 0);
+      outline: none;
+      cursor: pointer;
+      width: 110px;
+      box-shadow: 3px 2px 2px 1px black;
+      transition: 0.3s;
+
+      @include desktop {
+        padding: 4px;
+        font-size: 16px;
+        border-radius: 10px;
+        color: rgb(0, 0, 0);
+        outline: none;
+        cursor: pointer;
+        width: 110px;
+        box-shadow: 3px 2px 2px 1px black;
+        transition: 0.3s;
+      }
+
+      &:hover {
+        transform: scale(1.1);
+        color: rgb(0, 0, 0);
+      }
+
+      option {
+        background: white;
+        color: black;
+      }
+    }
+  }
+}
+
 .paginat {
   margin: 2px;
 
