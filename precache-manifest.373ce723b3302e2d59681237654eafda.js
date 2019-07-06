@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d8aa0ba98f9d6d349a225573076853b6",
+    "revision": "d06422e294271b066af61a1e79037ffa",
     "url": "/React.js-scrum-board/index.html"
   },
   {
-    "revision": "4f298e857ab6aa8dd84b",
-    "url": "/React.js-scrum-board/static/css/main.2b710729.chunk.css"
+    "revision": "5a06d20760907dcab4d0",
+    "url": "/React.js-scrum-board/static/css/main.6707b0e4.chunk.css"
   },
   {
     "revision": "d4418d0f271678db3e58",
     "url": "/React.js-scrum-board/static/js/2.4bc08eaa.chunk.js"
   },
   {
-    "revision": "4f298e857ab6aa8dd84b",
-    "url": "/React.js-scrum-board/static/js/main.b4fe0db3.chunk.js"
+    "revision": "5a06d20760907dcab4d0",
+    "url": "/React.js-scrum-board/static/js/main.df839d15.chunk.js"
   },
   {
     "revision": "3c397747ebc2920cddb9",
