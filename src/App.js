@@ -20,8 +20,11 @@ class App extends Component {
     fullDate: null,
     minimumDate: null,
     maximumDate: null,
-    currentPage: 1,
-    tasksPerPage: 5,
+    currentPageTasks: 1,
+    currentPageDev: 1,
+    currentPageVerify: 1,
+    currentPageDone: 1,
+    tasksPerPage: 3,
     pageNumbers: [],
     tasks: [
       {
@@ -95,10 +98,26 @@ class App extends Component {
     });
   };
 
-  handleClickPage = e => {
-    this.setState({
-      currentPage: Number(e.target.id)
-    });
+  handleClickPage = (e, array) => {
+    const { tasks, done, devTasks, verifyTasks } = this.state;
+
+    if (array === tasks) {
+      this.setState({
+        currentPageTasks: e.target.id
+      });
+    } else if (array === devTasks) {
+      this.setState({
+        currentPageDev: e.target.id
+      });
+    } else if (array === verifyTasks) {
+      this.setState({
+        currentPageVerify: e.target.id
+      });
+    } else if (array === done) {
+      this.setState({
+        currentPageDone: e.target.id
+      });
+    }
   };
 
   handleInput = e => {
@@ -155,12 +174,22 @@ class App extends Component {
   };
 
   handlePush = (id, firstArray, secondArray) => {
-    const tasks = [...firstArray];
+    const arrCopy = [...firstArray];
 
-    const index = tasks.findIndex(task => task.id === id);
-    const { name, priority, deadlineTask, type, taskColor } = tasks[index];
+    const index = arrCopy.findIndex(task => task.id === id);
+    const { name, priority, deadlineTask, type, taskColor } = arrCopy[index];
+    const {
+      tasks,
+      devTasks,
+      verifyTasks,
+      done,
+      currentPageDev,
+      currentPageDone,
+      currentPageTasks,
+      currentPageVerify
+    } = this.state;
 
-    const filterTask = tasks.filter(task => task.id !== id);
+    const filterTask = arrCopy.filter(task => task.id !== id);
     const data = {
       id: Math.random() * secondArray.length,
       name: name,
@@ -171,23 +200,60 @@ class App extends Component {
       taskColor: taskColor
     };
 
-    if (firstArray === this.state.tasks && secondArray.length < 30) {
+    if (firstArray === tasks && secondArray.length < 30) {
       this.setState({
         tasks: filterTask,
         devTasks: [...secondArray, data]
       });
-    } else if (firstArray === this.state.devTasks && secondArray.length < 30) {
+    } else if (firstArray === devTasks && secondArray.length < 30) {
       this.setState({
         devTasks: filterTask,
         verifyTasks: [...secondArray, data]
       });
-    } else if (
-      firstArray === this.state.verifyTasks &&
-      secondArray.length < 30
-    ) {
+    } else if (firstArray === verifyTasks && secondArray.length < 30) {
       this.setState({
         verifyTasks: filterTask,
         done: [...secondArray, data]
+      });
+    }
+
+    if (tasks.length === 4) {
+      this.setState({
+        currentPageTasks: 1
+      });
+    } else if (tasks.length % 3 === 1 && currentPageTasks !== 1) {
+      this.setState({
+        currentPageTasks: currentPageTasks - 1
+      });
+    }
+
+    if (devTasks.length === 4) {
+      this.setState({
+        currentPageDev: 1
+      });
+    } else if (devTasks.length % 3 === 1 && currentPageDev !== 1) {
+      this.setState({
+        currentPageDev: currentPageDev - 1
+      });
+    }
+
+    if (verifyTasks.length === 4) {
+      this.setState({
+        currentPageVerify: 1
+      });
+    } else if (verifyTasks.length % 3 === 1 && currentPageVerify !== 1) {
+      this.setState({
+        currentPageVerify: currentPageVerify - 1
+      });
+    }
+
+    if (done.length === 4) {
+      this.setState({
+        currentPageDone: 1
+      });
+    } else if (done.length % 3 === 1 && currentPageDone !== 1) {
+      this.setState({
+        currentPageDone: currentPageDone - 1
       });
     }
   };
@@ -206,28 +272,37 @@ class App extends Component {
   };
 
   handleDelete = (id, array) => {
-    const tasks = [...array];
-    const filterTask = tasks.filter(task => task.id !== id);
-    if (array === this.state.tasks) {
+    const { tasks, currentPageTasks, currentPageDone, done } = this.state;
+
+    const arrCopy = [...array];
+    const filterTask = arrCopy.filter(task => task.id !== id);
+    if (array === tasks) {
       this.setState({
         tasks: filterTask
       });
-    } else if (array === this.state.done) {
+    } else if (array === done) {
       this.setState({
         done: filterTask
       });
     }
 
-    if (this.state.tasks.length === 4) {
+    if (tasks.length === 4) {
       this.setState({
-        currentPage: 1
+        currentPageTasks: 1
       });
-    } else if (
-      this.state.tasks.length % 3 === 1 &&
-      this.state.currentPage !== 1
-    ) {
+    } else if (tasks.length % 3 === 1 && currentPageTasks !== 1) {
       this.setState({
-        currentPage: this.state.currentPage - 1
+        currentPageTasks: currentPageTasks - 1
+      });
+    }
+
+    if (done.length === 4) {
+      this.setState({
+        currentPageDone: 1
+      });
+    } else if (done.length % 3 === 1 && currentPageDone !== 1) {
+      this.setState({
+        currentPageDone: currentPageDone - 1
       });
     }
   };
@@ -237,11 +312,12 @@ class App extends Component {
     if (id === "tasks") {
       this.setState({
         [id]: [],
-        currentPage: 1
+        currentPageTasks: 1
       });
     } else if (id === "done") {
       this.setState({
-        [id]: []
+        [id]: [],
+        currentPageDone: 1
       });
     }
   };
@@ -290,7 +366,10 @@ class App extends Component {
   handleFilterAll = e => {
     this.setState({
       filterType: e.target.value,
-      currentPage: 1
+      currentPageTasks: 1,
+      currentPageDev: 1,
+      currentPageVerify: 1,
+      currentPageDone: 1
     });
   };
 
@@ -353,37 +432,110 @@ class App extends Component {
         break;
     }
 
-    const { currentPage, tasksPerPage } = this.state;
+    const {
+      currentPageDev,
+      currentPageDone,
+      currentPageTasks,
+      currentPageVerify,
+      tasksPerPage
+    } = this.state;
 
     // Logic for displaying current tasks in pagination
-    const indexOfLastTasks = currentPage * tasksPerPage;
+    const indexOfLastTasks = currentPageTasks * tasksPerPage;
     const indexOfFirstTasks = indexOfLastTasks - tasksPerPage;
-
     let current1 = [...filtertaskTasks];
     const currentTasks = current1.slice(indexOfFirstTasks, indexOfLastTasks);
 
+    const indexOfLastDev = currentPageDev * tasksPerPage;
+    const indexOfFirstDev = indexOfLastDev - tasksPerPage;
     let current2 = [...filtertaskDev];
-    const currentDev = current2.slice(indexOfFirstTasks, indexOfLastTasks);
+    const currentDev = current2.slice(indexOfFirstDev, indexOfLastDev);
 
+    const indexOfLastVerify = currentPageVerify * tasksPerPage;
+    const indexOfFirstVerify = indexOfLastVerify - tasksPerPage;
     let current3 = [...filtertaskVerify];
-    const currentVerify = current3.slice(indexOfFirstTasks, indexOfLastTasks);
+    const currentVerify = current3.slice(indexOfFirstVerify, indexOfLastVerify);
 
+    const indexOfLastDone = currentPageDone * tasksPerPage;
+    const indexOfFirstDone = indexOfLastDone - tasksPerPage;
     let current4 = [...filtertaskDone];
-    const currentDone = current4.slice(indexOfFirstTasks, indexOfLastTasks);
+    const currentDone = current4.slice(indexOfFirstDone, indexOfLastDone);
 
     // Logic for displaying page numbers
-    const pageNumbers = [];
+    const pageNumbers1 = [];
     for (let i = 1; i <= Math.ceil(current1.length / tasksPerPage); i++) {
-      pageNumbers.push(i);
+      pageNumbers1.push(i);
     }
 
-    const renderPageNumbers = pageNumbers.map(number => {
+    const pageNumbers2 = [];
+    for (let i = 1; i <= Math.ceil(current2.length / tasksPerPage); i++) {
+      pageNumbers2.push(i);
+    }
+
+    const pageNumbers3 = [];
+    for (let i = 1; i <= Math.ceil(current3.length / tasksPerPage); i++) {
+      pageNumbers3.push(i);
+    }
+
+    const pageNumbers4 = [];
+    for (let i = 1; i <= Math.ceil(current4.length / tasksPerPage); i++) {
+      pageNumbers4.push(i);
+    }
+
+    const renderPageNumbers1 = pageNumbers1.map(number => {
       return (
         <button
           className="paginat btn btn-info btn-sm"
           key={number}
           id={number}
-          onClick={this.handleClickPage}
+          onClick={e => {
+            this.handleClickPage(e, this.state.tasks);
+          }}
+        >
+          {number}
+        </button>
+      );
+    });
+
+    const renderPageNumbers2 = pageNumbers2.map(number => {
+      return (
+        <button
+          className="paginat btn btn-info btn-sm"
+          key={number}
+          id={number}
+          onClick={e => {
+            this.handleClickPage(e, this.state.devTasks);
+          }}
+        >
+          {number}
+        </button>
+      );
+    });
+
+    const renderPageNumbers3 = pageNumbers3.map(number => {
+      return (
+        <button
+          className="paginat btn btn-info btn-sm"
+          key={number}
+          id={number}
+          onClick={e => {
+            this.handleClickPage(e, this.state.verifyTasks);
+          }}
+        >
+          {number}
+        </button>
+      );
+    });
+
+    const renderPageNumbers4 = pageNumbers4.map(number => {
+      return (
+        <button
+          className="paginat btn btn-info btn-sm"
+          key={number}
+          id={number}
+          onClick={e => {
+            this.handleClickPage(e, this.state.done);
+          }}
         >
           {number}
         </button>
@@ -583,12 +735,12 @@ class App extends Component {
                 <b
                   id="page-numbers"
                   style={
-                    pageNumbers.length < 2
+                    pageNumbers1.length < 2
                       ? { display: "none" }
                       : { display: "block" }
                   }
                 >
-                  {renderPageNumbers}
+                  {renderPageNumbers1}
                 </b>
               </div>
               <h3
@@ -613,7 +765,19 @@ class App extends Component {
               >
                 Dev ({this.state.devTasks.length})
                 <i style={{ fontSize: "18px" }}>/30 </i>
-              </h2>{" "}
+              </h2>
+              <div>
+                <b
+                  id="page-numbers"
+                  style={
+                    pageNumbers2.length < 2
+                      ? { display: "none" }
+                      : { display: "block" }
+                  }
+                >
+                  {renderPageNumbers2}
+                </b>
+              </div>
               <h3
                 style={
                   this.state.devTasks.length > 0
@@ -636,7 +800,19 @@ class App extends Component {
               >
                 Test ({this.state.verifyTasks.length})
                 <i style={{ fontSize: "18px" }}>/30 </i>
-              </h2>{" "}
+              </h2>
+              <div>
+                <b
+                  id="page-numbers"
+                  style={
+                    pageNumbers3.length < 2
+                      ? { display: "none" }
+                      : { display: "block" }
+                  }
+                >
+                  {renderPageNumbers3}
+                </b>
+              </div>
               <h3
                 style={
                   this.state.verifyTasks.length > 0
@@ -657,7 +833,7 @@ class App extends Component {
               >
                 Done ({this.state.done.length})
                 <i style={{ fontSize: "18px" }}>/30 </i>
-              </h2>{" "}
+              </h2>
               <button
                 style={
                   this.state.done.length > 0
@@ -670,6 +846,18 @@ class App extends Component {
               >
                 Delete all
               </button>
+              <div>
+                <b
+                  id="page-numbers"
+                  style={
+                    pageNumbers4.length < 2
+                      ? { display: "none" }
+                      : { display: "block" }
+                  }
+                >
+                  {renderPageNumbers4}
+                </b>
+              </div>
               <h3
                 style={
                   this.state.done.length > 0
