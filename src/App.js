@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import TaskToDo from "./components/taskToDo";
+import DevTasks from "./components/devTasks";
+import VerifiedTasks from "./components/verifiedTasks";
+import TaskDone from "./components/taskDone";
 import "./App.scss";
 import workTable from "./work-table.png";
 
@@ -6,7 +10,9 @@ class App extends Component {
   state = {
     draft: "",
     taskType: "review",
+    filterType: "all",
     taskColor: { backgroundColor: "#57A1C4" },
+    filterColor: { backgroundColor: "#FAA" },
     AddActive: false,
     priority: false,
     dateNow: null,
@@ -14,18 +20,21 @@ class App extends Component {
     fullDate: null,
     minimumDate: null,
     maximumDate: null,
+    currentPage: 1,
+    tasksPerPage: 5,
+    pageNumbers: [],
     tasks: [
       {
         id: 1,
-        name: "buy bread",
+        name: "function to solve problem with ...",
         priority: true,
         deadlineTask: "2019-09-10",
-        type: "home",
+        type: "code",
         taskColor: { backgroundColor: "#9370DB" }
       },
       {
         id: 2,
-        name: "buy petrol",
+        name: "write report about ... issue",
         priority: false,
         deadlineTask: "2019-08-22",
         type: "doc",
@@ -37,9 +46,10 @@ class App extends Component {
     done: [
       {
         id: 0,
-        name: "eat pumpkin",
+        name: "display data from ...",
         priority: false,
-        doneAt: "2019-06-22, 11:48 PM",
+        deadlineTask: "2019-08-22",
+        passedTime: "2019-06-22, 11:48 PM",
         type: "code",
         taskColor: { backgroundColor: "#9370DB" }
       }
@@ -49,6 +59,12 @@ class App extends Component {
   componentDidMount() {
     this.currentTime();
   }
+
+  handleDate = e => {
+    this.setState({
+      date: e.target.value
+    });
+  };
 
   currentTime = () => {
     const date = new Date();
@@ -79,17 +95,10 @@ class App extends Component {
     });
   };
 
-  handleClearAll = e => {
-    const id = e.target.id;
-    if (id === "tasks") {
-      this.setState({
-        [id]: []
-      });
-    } else if (id === "done") {
-      this.setState({
-        [id]: []
-      });
-    }
+  handleClickPage = e => {
+    this.setState({
+      currentPage: Number(e.target.id)
+    });
   };
 
   handleInput = e => {
@@ -104,112 +113,83 @@ class App extends Component {
     });
   };
 
-  handleAddTask = () => {
-    const tasks = [
-      ...this.state.tasks,
-      {
-        id: Math.random() * this.state.tasks.length,
-        name: this.state.draft,
-        priority: this.state.priority,
-        deadlineTask: this.state.date,
-        type: this.state.taskType,
-        taskColor: this.state.taskColor
-      }
-    ]
-      .sort(this.sortToDoTasks("priority"))
-      .sort(this.sortToDoTasks("type"));
-
-    if (this.state.draft !== "") {
-      this.setState({
-        tasks: tasks.reverse(),
-        draft: "",
-        priority: false,
-        date: this.state.dateNow,
-        taskType: "review",
-        taskColor: { backgroundColor: "#57A1C4" },
-        AddActive: false
-      });
-    } else {
-      this.setState({
-        AddActive: true
-      });
+  handleEnter = e => {
+    if (e.key === "Enter") {
+      this.handleAddTask();
     }
   };
 
-  handlePushToDo = id => {
-    const tasks = [...this.state.tasks];
-    tasks.forEach(task => {
-      if (task.id === id) {
-        const index = tasks.findIndex(task => task.id === id);
-        this.setState({
-          tasks: tasks,
-          devTasks: [
-            ...this.state.devTasks,
-            {
-              id: Math.random() * this.state.devTasks.length,
-              name: tasks[index].name,
-              priority: tasks[index].priority,
-              passedTime: this.state.fullDate,
-              type: tasks[index].type,
-              taskColor: tasks[index].taskColor
-            }
-          ]
-        });
+  handleAddTask = () => {
+    const { draft, priority, date, taskType, taskColor } = this.state;
+    if (this.state.tasks.length < 30) {
+      const tasks = [
+        ...this.state.tasks,
+        {
+          id: Math.random() * this.state.tasks.length,
+          name: draft,
+          priority: priority,
+          deadlineTask: date,
+          type: taskType,
+          taskColor: taskColor
+        }
+      ]
+        .sort(this.sortToDoTasks("priority"))
+        .sort(this.sortToDoTasks("type"));
 
-        tasks.splice(index, 1);
+      if (this.state.draft !== "") {
+        this.setState({
+          tasks: tasks.reverse(),
+          draft: "",
+          priority: false,
+          date: this.state.dateNow,
+          taskType: "review",
+          taskColor: { backgroundColor: "#57A1C4" },
+          AddActive: false
+        });
+      } else {
+        this.setState({
+          AddActive: true
+        });
       }
-    });
+    }
   };
 
-  handlePushDev = id => {
-    const tasks = [...this.state.devTasks];
+  handlePush = (id, firstArray, secondArray) => {
+    const tasks = [...firstArray];
 
-    tasks.forEach(task => {
-      if (task.id === id) {
-        const index = tasks.findIndex(task => task.id === id);
+    const index = tasks.findIndex(task => task.id === id);
+    const { name, priority, deadlineTask, type, taskColor } = tasks[index];
 
-        this.setState({
-          devTasks: tasks,
-          verifyTasks: [
-            ...this.state.verifyTasks,
-            {
-              id: Math.random() * this.state.verifyTasks.length,
-              name: tasks[index].name,
-              priority: tasks[index].priority,
-              passedTime: this.state.fullDate,
-              type: tasks[index].type,
-              taskColor: tasks[index].taskColor
-            }
-          ]
-        });
-        tasks.splice(index, 1);
-      }
-    });
-  };
+    const filterTask = tasks.filter(task => task.id !== id);
+    const data = {
+      id: Math.random() * secondArray.length,
+      name: name,
+      priority: priority,
+      deadlineTask: deadlineTask,
+      passedTime: this.state.fullDate,
+      type: type,
+      taskColor: taskColor
+    };
 
-  handlePushVerify = id => {
-    const tasks = [...this.state.verifyTasks];
-
-    tasks.forEach(task => {
-      if (task.id === id) {
-        const index = tasks.findIndex(task => task.id === id);
-        this.setState({
-          verifyTasks: tasks,
-          done: [
-            ...this.state.done,
-            {
-              id: Math.random() * this.state.done.length,
-              name: tasks[index].name,
-              priority: tasks[index].priority,
-              doneAt: this.state.fullDate,
-              type: tasks[index].type,
-              taskColor: tasks[index].taskColor
-            }
-          ]
-        });
-        tasks.splice(index, 1);
-      }
-    });
+    if (firstArray === this.state.tasks && secondArray.length < 30) {
+      this.setState({
+        tasks: filterTask,
+        devTasks: [...secondArray, data]
+      });
+    } else if (firstArray === this.state.devTasks && secondArray.length < 30) {
+      this.setState({
+        devTasks: filterTask,
+        verifyTasks: [...secondArray, data]
+      });
+    } else if (
+      firstArray === this.state.verifyTasks &&
+      secondArray.length < 30
+    ) {
+      this.setState({
+        verifyTasks: filterTask,
+        done: [...secondArray, data]
+      });
+    }
   };
 
   sortToDoTasks = property => {
@@ -225,28 +205,45 @@ class App extends Component {
     };
   };
 
-  handleDeleteToDo = id => {
-    const tasks = [...this.state.tasks];
-    const index = tasks.findIndex(task => task.id === id);
-    tasks.splice(index, 1);
-    this.setState({
-      tasks
-    });
+  handleDelete = (id, array) => {
+    const tasks = [...array];
+    const filterTask = tasks.filter(task => task.id !== id);
+    if (array === this.state.tasks) {
+      this.setState({
+        tasks: filterTask
+      });
+    } else if (array === this.state.done) {
+      this.setState({
+        done: filterTask
+      });
+    }
+
+    if (this.state.tasks.length === 4) {
+      this.setState({
+        currentPage: 1
+      });
+    } else if (
+      this.state.tasks.length % 3 === 1 &&
+      this.state.currentPage !== 1
+    ) {
+      this.setState({
+        currentPage: this.state.currentPage - 1
+      });
+    }
   };
 
-  handleDeleteDone = id => {
-    const tasksDone = [...this.state.done];
-    const index = tasksDone.findIndex(task => task.id === id);
-    tasksDone.splice(index, 1);
-    this.setState({
-      done: tasksDone
-    });
-  };
-
-  handleDate = e => {
-    this.setState({
-      date: e.target.value
-    });
+  handleDeleteAll = e => {
+    const id = e.target.id;
+    if (id === "tasks") {
+      this.setState({
+        [id]: [],
+        currentPage: 1
+      });
+    } else if (id === "done") {
+      this.setState({
+        [id]: []
+      });
+    }
   };
 
   handleSelect = e => {
@@ -271,11 +268,11 @@ class App extends Component {
         return this.setState({
           taskColor: { backgroundColor: "#92C1FF" }
         });
-      case "analyse":
+      case "analyze":
         return this.setState({
           taskColor: { backgroundColor: "#68D384" }
         });
-      case "ext":
+      case "fix":
         return this.setState({
           taskColor: { backgroundColor: "#E5AE3A" }
         });
@@ -290,59 +287,164 @@ class App extends Component {
     }
   };
 
-  render() {
-    console.log(this.state.taskType);
-    console.log(this.state.taskColor);
+  handleFilterAll = e => {
+    this.setState({
+      filterType: e.target.value,
+      currentPage: 1
+    });
+  };
 
-    const tasks = this.state.tasks.map(task => (
-      <Task
+  render() {
+    const { filterType, tasks, devTasks, verifyTasks, done } = this.state;
+
+    let filtertaskTasks;
+    let filtertaskDev;
+    let filtertaskVerify;
+    let filtertaskDone;
+
+    switch (filterType) {
+      case "review":
+        filtertaskTasks = tasks.filter(task => task.type === "review");
+        filtertaskDev = devTasks.filter(task => task.type === "review");
+        filtertaskVerify = verifyTasks.filter(task => task.type === "review");
+        filtertaskDone = done.filter(task => task.type === "review");
+        break;
+      case "code":
+        filtertaskTasks = tasks.filter(task => task.type === "code");
+        filtertaskDev = devTasks.filter(task => task.type === "code");
+        filtertaskVerify = verifyTasks.filter(task => task.type === "code");
+        filtertaskDone = done.filter(task => task.type === "code");
+        break;
+      case "test":
+        filtertaskTasks = tasks.filter(task => task.type === "test");
+        filtertaskDev = devTasks.filter(task => task.type === "test");
+        filtertaskVerify = verifyTasks.filter(task => task.type === "test");
+        filtertaskDone = done.filter(task => task.type === "test");
+        break;
+      case "doc":
+        filtertaskTasks = tasks.filter(task => task.type === "doc");
+        filtertaskDev = devTasks.filter(task => task.type === "doc");
+        filtertaskVerify = verifyTasks.filter(task => task.type === "doc");
+        filtertaskDone = done.filter(task => task.type === "doc");
+        break;
+      case "analyze":
+        filtertaskTasks = tasks.filter(task => task.type === "analyze");
+        filtertaskDev = devTasks.filter(task => task.type === "analyze");
+        filtertaskVerify = verifyTasks.filter(task => task.type === "analyze");
+        filtertaskDone = done.filter(task => task.type === "analyze");
+        break;
+      case "fix":
+        filtertaskTasks = tasks.filter(task => task.type === "fix");
+        filtertaskDev = devTasks.filter(task => task.type === "fix");
+        filtertaskVerify = verifyTasks.filter(task => task.type === "fix");
+        filtertaskDone = done.filter(task => task.type === "fix");
+        break;
+      case "others":
+        filtertaskTasks = tasks.filter(task => task.type === "others");
+        filtertaskDev = devTasks.filter(task => task.type === "others");
+        filtertaskVerify = verifyTasks.filter(task => task.type === "others");
+        filtertaskDone = done.filter(task => task.type === "others");
+        break;
+      default:
+        filtertaskTasks = tasks.filter(task => task.type !== "all");
+        filtertaskDev = devTasks.filter(task => task.type !== "all");
+        filtertaskVerify = verifyTasks.filter(task => task.type !== "all");
+        filtertaskDone = done.filter(task => task.type !== "all");
+        break;
+    }
+
+    const { currentPage, tasksPerPage } = this.state;
+
+    // Logic for displaying current tasks in pagination
+    const indexOfLastTasks = currentPage * tasksPerPage;
+    const indexOfFirstTasks = indexOfLastTasks - tasksPerPage;
+
+    let current1 = [...filtertaskTasks];
+    const currentTasks = current1.slice(indexOfFirstTasks, indexOfLastTasks);
+
+    let current2 = [...filtertaskDev];
+    const currentDev = current2.slice(indexOfFirstTasks, indexOfLastTasks);
+
+    let current3 = [...filtertaskVerify];
+    const currentVerify = current3.slice(indexOfFirstTasks, indexOfLastTasks);
+
+    let current4 = [...filtertaskDone];
+    const currentDone = current4.slice(indexOfFirstTasks, indexOfLastTasks);
+
+    // Logic for displaying page numbers
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(current1.length / tasksPerPage); i++) {
+      pageNumbers.push(i);
+    }
+
+    const renderPageNumbers = pageNumbers.map(number => {
+      return (
+        <button
+          className="paginat btn btn-info btn-sm"
+          key={number}
+          id={number}
+          onClick={this.handleClickPage}
+        >
+          {number}
+        </button>
+      );
+    });
+
+    const tasksToDo = currentTasks.map(task => (
+      <TaskToDo
         taskColor={task.taskColor}
         taskType={task.type}
-        date={task.deadlineTask}
+        deadline={task.deadlineTask}
         priority={task.priority}
         key={task.id}
         name={task.name}
-        delete={() => this.handleDeleteToDo(task.id)}
-        done={() => this.handlePushToDo(task.id)}
+        delete={() => this.handleDelete(task.id, this.state.tasks)}
+        done={() =>
+          this.handlePush(task.id, this.state.tasks, this.state.devTasks)
+        }
       />
     ));
 
-    const devTasks = this.state.devTasks.map(task => (
+    const dev = currentDev.map(task => (
       <DevTasks
         taskColor={task.taskColor}
         taskType={task.type}
+        deadline={task.deadlineTask}
         date={task.passedTime}
         priority={task.priority}
-        doneAt={task.doneAt}
         key={task.id}
         name={task.name}
-        done={() => this.handlePushDev(task.id)}
+        done={() =>
+          this.handlePush(task.id, this.state.devTasks, this.state.verifyTasks)
+        }
       />
     ));
 
-    const verifyTasks = this.state.verifyTasks.map(task => (
+    const verify = currentVerify.map(task => (
       <VerifiedTasks
         taskColor={task.taskColor}
         taskType={task.type}
+        deadline={task.deadlineTask}
         date={task.passedTime}
         priority={task.priority}
-        doneAt={task.doneAt}
         key={task.id}
         name={task.name}
-        done={() => this.handlePushVerify(task.id)}
+        done={() =>
+          this.handlePush(task.id, this.state.verifyTasks, this.state.done)
+        }
       />
     ));
 
-    const tasksDone = this.state.done.map(task => (
+    const tasksDone = currentDone.map(task => (
       <TaskDone
         taskColor={task.taskColor}
         taskType={task.type}
-        date={task.doneAt}
+        deadline={task.deadlineTask}
+        date={task.passedTime}
         priority={task.priority}
-        doneAt={task.doneAt}
         key={task.id}
         name={task.name}
-        deleteDone={() => this.handleDeleteDone(task.id)}
+        deleteDone={() => this.handleDelete(task.id, this.state.done)}
       />
     ));
 
@@ -360,6 +462,7 @@ class App extends Component {
                 onChange={this.handleInput}
                 maxLength="30"
                 placeholder="&nbsp;"
+                onKeyPress={this.handleEnter}
               />
               <span className="label">Input task</span>
               <span className="border" />
@@ -407,8 +510,8 @@ class App extends Component {
                 <option value="code">Code</option>
                 <option value="test">Test</option>
                 <option value="doc">Document</option>
-                <option value="analyse">Analysis</option>
-                <option value="ext">Extend</option>
+                <option value="analyze">Analyze</option>
+                <option value="fix">Fix</option>
                 <option value="others">Others</option>
               </select>
             </label>
@@ -430,14 +533,39 @@ class App extends Component {
 
           <img src={workTable} alt="work-table" />
         </div>
+
+        <div className="selectBox">
+          <label htmlFor="filter">
+            <p>Filter: </p>
+            <select
+              value={this.state.filterType}
+              onChange={this.handleFilterAll}
+              id="filter"
+            >
+              <option value="all">All</option>
+              <option value="review">Review</option>
+              <option value="code">Code</option>
+              <option value="test">Test</option>
+              <option value="doc">Document</option>
+              <option value="analyze">Analyze</option>
+              <option value="fix">Fix</option>
+              <option value="others">Others</option>
+            </select>
+          </label>
+        </div>
         <hr />
 
         <div className="row" style={{ margin: 0 }}>
           <div className="col-xl-3" style={{ borderRight: "2px solid black" }}>
             <div className="TasksToDoHeader">
-              <h2>To do ({this.state.tasks.length})</h2>{" "}
+              <h2
+                style={this.state.tasks.length === 30 ? { color: "red" } : null}
+              >
+                To do ({this.state.tasks.length})
+                <i style={{ fontSize: "18px" }}>/30 </i>
+              </h2>{" "}
               <h6>
-                <i>(ordered by priority & task type)</i>
+                <i>(ordered by task type and priority in there)</i>
               </h6>
               <button
                 style={
@@ -447,10 +575,22 @@ class App extends Component {
                 }
                 id="tasks"
                 className="btn btn-danger"
-                onClick={this.handleClearAll}
+                onClick={this.handleDeleteAll}
               >
                 Delete all
               </button>
+              <div>
+                <b
+                  id="page-numbers"
+                  style={
+                    pageNumbers.length < 2
+                      ? { display: "none" }
+                      : { display: "block" }
+                  }
+                >
+                  {renderPageNumbers}
+                </b>
+              </div>
               <h3
                 style={
                   this.state.tasks.length > 0
@@ -461,12 +601,19 @@ class App extends Component {
                 <i>None tasks to be done !</i>
               </h3>
             </div>
-            <div className="TasksToDoContainers">{tasks}</div>
+            <div className="TasksToDoContainers">{tasksToDo}</div>
           </div>
 
           <div className="col-xl-3" style={{ borderRight: "2px solid black" }}>
             <div className="TasksToDoHeader">
-              <h2>Dev ({this.state.devTasks.length})</h2>{" "}
+              <h2
+                style={
+                  this.state.devTasks.length === 30 ? { color: "red" } : null
+                }
+              >
+                To do ({this.state.devTasks.length})
+                <i style={{ fontSize: "18px" }}>/30 </i>
+              </h2>{" "}
               <h3
                 style={
                   this.state.devTasks.length > 0
@@ -477,12 +624,19 @@ class App extends Component {
                 <i>None tasks to be developed !</i>
               </h3>
             </div>
-            <div className="TasksToDoContainers">{devTasks}</div>
+            <div className="TasksToDoContainers">{dev}</div>
           </div>
 
           <div className="col-xl-3" style={{ borderRight: "2px solid black" }}>
             <div className="TasksToDoHeader">
-              <h2>Test ({this.state.verifyTasks.length})</h2>{" "}
+              <h2
+                style={
+                  this.state.verifyTasks.length === 30 ? { color: "red" } : null
+                }
+              >
+                To do ({this.state.verifyTasks.length})
+                <i style={{ fontSize: "18px" }}>/30 </i>
+              </h2>{" "}
               <h3
                 style={
                   this.state.verifyTasks.length > 0
@@ -493,12 +647,17 @@ class App extends Component {
                 <i>None tasks to be verified !</i>
               </h3>
             </div>
-            <div className="TasksToDoContainers">{verifyTasks}</div>
+            <div className="TasksToDoContainers">{verify}</div>
           </div>
 
           <div className="col-xl-3">
             <div className="TasksToDoHeader">
-              <h2>Done ({this.state.done.length})</h2>{" "}
+              <h2
+                style={this.state.done.length === 30 ? { color: "red" } : null}
+              >
+                To do ({this.state.done.length})
+                <i style={{ fontSize: "18px" }}>/30 </i>
+              </h2>{" "}
               <button
                 style={
                   this.state.done.length > 0
@@ -507,7 +666,7 @@ class App extends Component {
                 }
                 id="done"
                 className="btn btn-danger"
-                onClick={this.handleClearAll}
+                onClick={this.handleDeleteAll}
               >
                 Delete all
               </button>
@@ -528,96 +687,5 @@ class App extends Component {
     );
   }
 }
-
-const Task = props => {
-  return (
-    <div>
-      <div className="singleTask" style={props.taskColor}>
-        <div className="control-buttons">
-          <button className="btn btn-success" onClick={props.done}>
-            ✔
-          </button>
-          <button className="btn btn-danger" onClick={props.delete}>
-            ✘
-          </button>
-        </div>
-        <p>
-          <i>{props.taskType}</i>
-        </p>
-        <h4 className={props.priority ? "priority" : "standard"}>
-          {props.priority ? props.name.toUpperCase() : props.name}
-          <br />
-        </h4>
-        <i> {props.date ? `deadline: ${props.date}` : props.date}</i>
-      </div>
-    </div>
-  );
-};
-
-const DevTasks = props => {
-  return (
-    <div>
-      <div className="singleTask" style={props.taskColor}>
-        <div className="control-buttons">
-          <button className="btn btn-success" onClick={props.done}>
-            ✔
-          </button>
-        </div>
-        <p>
-          <i>{props.taskType}</i>
-        </p>
-        <h4 className={props.priority ? "priority" : "standard"}>
-          {props.priority ? props.name.toUpperCase() : props.name}
-          <br />
-        </h4>
-        <i> {props.date ? `passed: ${props.date}` : props.date}</i>
-      </div>
-    </div>
-  );
-};
-
-const VerifiedTasks = props => {
-  return (
-    <div>
-      <div className="singleTask" style={props.taskColor}>
-        <div className="control-buttons">
-          <button className="btn btn-success" onClick={props.done}>
-            ✔
-          </button>
-        </div>
-        <p>
-          <i>{props.taskType}</i>
-        </p>
-        <h4 className={props.priority ? "priority" : "standard"}>
-          {props.priority ? props.name.toUpperCase() : props.name}
-          <br />
-        </h4>
-        <i> {props.date ? `passed: ${props.date}` : props.date}</i>
-      </div>
-    </div>
-  );
-};
-
-const TaskDone = props => {
-  return (
-    <div>
-      <div className="singleTask" style={props.taskColor}>
-        <div className="control-buttons">
-          <button className="btn btn-danger" onClick={props.deleteDone}>
-            ✘
-          </button>
-        </div>
-        <p>
-          <i>{props.taskType}</i>
-        </p>
-        <h4 className={props.priority ? "priority" : "standard"}>
-          {props.priority ? props.name.toUpperCase() : props.name}
-          <br />
-        </h4>
-        <i> {props.date ? `done: ${props.date}` : props.date}</i>
-      </div>
-    </div>
-  );
-};
 
 export default App;

@@ -37,11 +37,12 @@ h4 {
   overflow-wrap: break-word;
 }
 
-.doneTaskList {
-  color: green;
-  text-decoration-line: line-through;
-  overflow-wrap: break-word;
-  padding: 20px 30px 0px 30px;
+.col-xl-3 {
+  height: 100%;
+
+  @include desktop {
+    height: 1000px;
+  }
 }
 
 .singleTask {
@@ -65,6 +66,7 @@ h4 {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  margin-bottom: 80px;
 }
 
 .control-buttons {
@@ -448,4 +450,32 @@ h4 {
       }
     }
   }
+}
+
+.paginat {
+  margin: 2px;
+
+  &:focus {
+    background-color: rgb(255, 255, 255);
+    color: black;
+    font-weight: bolder;
+    transform: scale(1.1);
+    box-shadow: 0px 0px 3px 1px rgb(0, 60, 255) inset;
+  }
+}
+
+#page-numbers {
+  list-style: none;
+  display: flex;
+  margin-top: 10px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#page-numbers > li {
+  margin-right: 0.3em;
+  color: blue;
+  user-select: none;
+  cursor: pointer;
 }
