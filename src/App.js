@@ -3,8 +3,10 @@ import TaskToDo from "./components/taskToDo";
 import DevTasks from "./components/devTasks";
 import VerifiedTasks from "./components/verifiedTasks";
 import TaskDone from "./components/taskDone";
+import Blobs from "./components/blobs";
+import InputArea from "./components/inputArea";
+import Filtering from "./components/filtering";
 import "./App.scss";
-import workTable from "./work-table.png";
 
 class App extends Component {
   state = {
@@ -621,299 +623,31 @@ class App extends Component {
 
     return (
       <div className="App">
-        <div className="bgImage" />
-        <svg className="blobCont">
-          <image
-            xlinkHref="https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-0.3.5&s=e20bc3d490c974d9ea190e05c47962f5&auto=format&fit=crop&w=634&q=80"
-            mask="url(#mask)"
-            width="100%"
-            height="100%"
-            preserveAspectRatio="xMidYMid slice"
-          />
-          <defs>
-            <filter id="gooey" height="130%">
-              <feGaussianBlur
-                in="SourceGraphic"
-                stdDeviation="15"
-                result="blur"
-              />
-              <feColorMatrix
-                in="blur"
-                mode="matrix"
-                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
-                result="goo"
-              />
-            </filter>
-          </defs>
-          <mask id="mask" x="0" y="0">
-            <g style={{ filter: "url(#gooey)" }}>
-              <circle
-                className="blob"
-                cx="10%"
-                cy="10%"
-                r="40"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="50%"
-                cy="10%"
-                r="20"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="17%"
-                cy="15%"
-                r="30"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="90%"
-                cy="20%"
-                r="50"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="30%"
-                cy="25%"
-                r="10"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="50%"
-                cy="60%"
-                r="40"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="70%"
-                cy="90%"
-                r="10"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="90%"
-                cy="60%"
-                r="20"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="30%"
-                cy="90%"
-                r="40"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="10%"
-                cy="10%"
-                r="20"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="50%"
-                cy="10%"
-                r="20"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="17%"
-                cy="15%"
-                r="30"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="40%"
-                cy="20%"
-                r="40"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="30%"
-                cy="25%"
-                r="30"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="80%"
-                cy="60%"
-                r="50"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="17%"
-                cy="10%"
-                r="50"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="40%"
-                cy="60%"
-                r="20"
-                fill="white"
-                stroke="white"
-              />
-              <circle
-                className="blob"
-                cx="10%"
-                cy="50%"
-                r="30"
-                fill="white"
-                stroke="white"
-              />
-            </g>
-          </mask>
-        </svg>
-        <div className="InputArea">
-          <h2>Your Scrum Board</h2>
-          <div className="inputField">
-            <label htmlFor="inp" className="inp">
-              <input
-                id="inp"
-                type="text"
-                name="draft"
-                value={this.state.draft}
-                onChange={this.handleInput}
-                maxLength="30"
-                placeholder="&nbsp;"
-                onKeyPress={this.handleEnter}
-              />
-              <span className="label">Input task</span>
-              <span className="border" />
-            </label>
+        <Blobs />
 
-            <div className="squaredCheckbox">
-              <label htmlFor="checkb">
-                <input
-                  type="checkbox"
-                  id="checkb"
-                  checked={this.state.priority}
-                  onChange={this.handlePriority}
-                />
-                <label htmlFor="mark" />
-                <i>High priority</i>
-              </label>
-            </div>
+        <InputArea
+          input={this.handleInput}
+          enter={this.handleEnter}
+          draft={this.state.draft}
+          priority={this.state.priority}
+          priorityStatus={this.handlePriority}
+          addTask={this.handleAddTask}
+          addActive={this.state.AddActive}
+          color={this.state.taskColor}
+          type={this.state.taskType}
+          select={this.handleSelect}
+          date={this.state.date}
+          handleDate={this.handleDate}
+          minimumDate={this.state.minimumDate}
+          maximumDate={this.state.maximumDate}
+        />
 
-            <div className="AddBtnContainer">
-              <button
-                id="addBtn"
-                className="btn btn-primary"
-                onClick={this.handleAddTask}
-              >
-                Add ✚
-              </button>
-              <p>
-                {this.state.AddActive && this.state.draft === ""
-                  ? `Fill task field firstly`
-                  : null}
-              </p>
-            </div>
-          </div>
-
-          <div className="selectBox">
-            <label htmlFor="choice">
-              <p>Task type: </p>
-              <select
-                style={this.state.taskColor}
-                value={this.state.taskType}
-                onChange={this.handleSelect}
-                id="choice"
-              >
-                <option value="review">Review</option>
-                <option value="code">Code</option>
-                <option value="test">Test</option>
-                <option value="doc">Document</option>
-                <option value="analyze">Analyze</option>
-                <option value="fix">Fix</option>
-                <option value="others">Others</option>
-              </select>
-            </label>
-          </div>
-
-          <div className="deadlineDate">
-            <label htmlFor="date">
-              <p>Deadline date: </p>
-              <input
-                id="date"
-                type="date"
-                value={this.state.date}
-                min={this.state.minimumDate}
-                max={this.state.maximumDate}
-                onChange={this.handleDate}
-              />
-            </label>
-          </div>
-
-          <img src={workTable} alt="work-table" />
-        </div>
-
-        <div className="filtering">
-          <div className="selectBox">
-            <label htmlFor="filter">
-              <p>Filter by type: </p>
-              <select
-                value={this.state.filterType}
-                onChange={this.handleFilterAll}
-                id="filter"
-              >
-                <option value="all">All</option>
-                <option value="review">Review</option>
-                <option value="code">Code</option>
-                <option value="test">Test</option>
-                <option value="doc">Document</option>
-                <option value="analyze">Analyze</option>
-                <option value="fix">Fix</option>
-                <option value="others">Others</option>
-              </select>
-            </label>
-          </div>
-
-          <div className="selectBox">
-            <label htmlFor="tasksPerPage">
-              <p>Per Page: </p>
-              <select
-                value={this.state.tasksPerPage}
-                onChange={this.handleTasksPerPage}
-                id="tasksPerPage"
-              >
-                <option value="3">3</option>
-                <option value="6">6</option>
-                <option value="9">9</option>
-              </select>
-            </label>
-          </div>
-        </div>
+        <Filtering
+          filterType={this.state.filterType}
+          filterAll={this.handleFilterAll}
+          tasksPerPage={this.state.tasksPerPage}
+          handleTasksPerPage={this.handleTasksPerPage}
+        />
 
         <hr />
 
