@@ -13,76 +13,176 @@ $desktopBigger: 1350px;
   }
 }
 
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+  background: url("https://wallpaperplay.com/walls/full/c/2/f/170697.jpg");
+  background-size: cover;
+}
+
 .App {
   text-align: center;
+  margin-top: 50px;
 }
 
-.priority {
-  color: red;
-  font-weight: bold;
-  margin-top: 10px;
-  padding: 2px;
-  border: 2px dashed red;
-}
-
-.standard {
-  color: white;
-  font-family: "Kalam", cursive;
-}
-
-h4 {
-  margin-top: 10px;
-  padding: 4px;
-  margin-bottom: 30px;
-  overflow-wrap: break-word;
-}
-
-.col-xl-3 {
-  height: 100%;
-
-  @include desktop {
-    height: 1000px;
-  }
-}
-
-.singleTask {
-  position: relative;
-  width: 270px;
-  padding: 20px;
-  margin: 10px;
-  border-radius: 2vw;
-  display: inline-block;
-  border: 2px solid black;
-  box-shadow: 0px 0px 10px 1px black;
-}
-
-.TasksToDoHeader {
-  padding: 20px;
-  padding-bottom: 50px;
-}
-
-.TasksToDoContainers {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 80px;
-}
-
-.control-buttons {
-  text-align: end;
-  margin-top: -10px;
-  padding-bottom: 15px;
-}
-
-.singleTask p {
+.background {
   position: absolute;
-  top: 10px;
-  left: 18px;
-  font-size: 15px;
-  font-family: "Audiowide", cursive;
-  border-bottom: 2px solid rgb(0, 140, 255);
-  border-block-end-style: groove;
+  display: block;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.row {
+  margin: 0;
+
+  .col-xl-3 {
+    height: 100%;
+
+    @include desktop {
+      height: 800px;
+      margin-bottom: 100px;
+
+      &:nth-child(-n + 3) {
+        border-right: 1px solid white;
+      }
+    }
+
+    .TasksToDoHeader {
+      padding: 20px;
+      padding-bottom: 50px;
+
+      h2 {
+        color: white;
+      }
+
+      h6 {
+        color: white;
+      }
+
+      button {
+        transition: 0.3s;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    .TasksToDoContainers {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 80px;
+    }
+  }
+
+  .singleTaskPriority {
+    position: relative;
+    width: 270px;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 2vw;
+    display: inline-block;
+    border: 2px solid rgb(255, 0, 0);
+    box-shadow: 0px 0px 2px 6px rgb(255, 0, 0);
+
+    h4 {
+      margin-top: 10px;
+      padding: 4px;
+      margin-bottom: 30px;
+      overflow-wrap: break-word;
+    }
+
+    .priority {
+      color: white;
+      font-weight: bold;
+      margin-top: 10px;
+      padding: 2px;
+    }
+
+    .control-buttons {
+      text-align: end;
+      margin-top: -10px;
+      padding-bottom: 15px;
+    }
+
+    p {
+      position: absolute;
+      top: 10px;
+      left: 18px;
+      font-size: 15px;
+      font-family: "Audiowide", cursive;
+      border-bottom: 2px solid rgb(0, 140, 255);
+      border-block-end-style: groove;
+    }
+
+    button {
+      transition: 0.3s;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  .singleTask {
+    position: relative;
+    width: 270px;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 2vw;
+    display: inline-block;
+    border: 2px solid black;
+    box-shadow: 0px 0px 5px 2px rgb(255, 255, 255);
+
+    h4 {
+      margin-top: 10px;
+      padding: 4px;
+      margin-bottom: 30px;
+      overflow-wrap: break-word;
+    }
+
+    .standard {
+      color: white;
+      font-family: "Kalam", cursive;
+    }
+
+    .priority {
+      color: red;
+      font-weight: bold;
+      margin-top: 10px;
+      padding: 2px;
+      border: 2px dashed red;
+    }
+
+    .control-buttons {
+      text-align: end;
+      margin-top: -10px;
+      padding-bottom: 15px;
+    }
+
+    p {
+      position: absolute;
+      top: 10px;
+      left: 18px;
+      font-size: 15px;
+      font-family: "Audiowide", cursive;
+      border-bottom: 2px solid rgb(0, 140, 255);
+      border-block-end-style: groove;
+    }
+
+    button {
+      transition: 0.3s;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
 }
 
 .InputArea {
@@ -104,7 +204,7 @@ h4 {
     #00bf72,
     #a8eb12
   );
-  box-shadow: 0px 10px 50px 2px black;
+  box-shadow: 0px 0px 20px 2px rgb(255, 255, 255);
 
   @include desktop {
     justify-content: left;
@@ -125,7 +225,7 @@ h4 {
       #00bf72,
       #a8eb12
     );
-    box-shadow: 0px 10px 50px 2px black;
+    box-shadow: 0px 0px 20px 2px rgb(255, 255, 255);
   }
 
   h2 {
@@ -153,6 +253,7 @@ h4 {
     left: 75%;
     top: 50%;
     opacity: 0;
+
     @include desktop {
       position: absolute;
       width: 200px;
@@ -203,6 +304,7 @@ h4 {
         transform-origin: 0 0;
         transition: all 0.2s ease;
       }
+
       .border {
         position: absolute;
         bottom: 0;
@@ -385,7 +487,7 @@ h4 {
       width: 140px;
 
       background: #fff
-        url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)
+        url("https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png")
         97% 50% no-repeat;
 
       @include desktop {
@@ -397,7 +499,7 @@ h4 {
         width: 160px;
 
         background: #fff
-          url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)
+          url("https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png")
           97% 50% no-repeat;
       }
     }
@@ -462,6 +564,10 @@ h4 {
   .selectBox {
     padding: 20px 30px 30px 30px;
 
+    p {
+      color: white;
+    }
+
     select {
       padding: 4px;
       font-size: 16px;
@@ -470,7 +576,8 @@ h4 {
       outline: none;
       cursor: pointer;
       width: 110px;
-      box-shadow: 3px 2px 2px 1px black;
+      border: 2px solid black;
+      box-shadow: 0px 0px 10px 1px rgb(255, 255, 255);
       transition: 0.3s;
 
       @include desktop {
@@ -481,7 +588,8 @@ h4 {
         outline: none;
         cursor: pointer;
         width: 110px;
-        box-shadow: 3px 2px 2px 1px black;
+        border: 2px solid black;
+        box-shadow: 0px 0px 10px 1px rgb(255, 255, 255);
         transition: 0.3s;
       }
 
@@ -524,4 +632,31 @@ h4 {
   color: blue;
   user-select: none;
   cursor: pointer;
+}
+
+.blobCont {
+  position: absolute;
+  height: 85%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+@for $i from 1 through 18 {
+  $a: #{$i * 90};
+  $b: #{$i * 90+360};
+
+  .blob:nth-child(#{$i}) {
+    animation: move#{$i} 20s infinite linear;
+  }
+
+  @keyframes move#{$i} {
+    from {
+      transform: rotate(#{$a}deg) translate(200px, 0.1px) rotate(-#{$a}deg);
+    }
+    to {
+      transform: rotate(#{$b}deg) translate(200px, 0.1px) rotate(-#{$b}deg);
+    }
+  }
 }

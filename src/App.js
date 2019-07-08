@@ -14,6 +14,7 @@ class App extends Component {
     taskColor: { backgroundColor: "#57A1C4" },
     filterColor: { backgroundColor: "#FAA" },
     AddActive: false,
+    acceptRefuse: false,
     priority: false,
     dateNow: null,
     date: "",
@@ -132,6 +133,12 @@ class App extends Component {
     });
   };
 
+  handleAcceptRefuse = () => {
+    this.setState({
+      acceptRefuse: !this.state.acceptRefuse
+    });
+  };
+
   handleEnter = e => {
     if (e.key === "Enter") {
       this.handleAddTask();
@@ -221,7 +228,7 @@ class App extends Component {
       this.setState({
         currentPageTasks: 1
       });
-    } else if (tasks.length % 3 === 1 && currentPageTasks !== 1) {
+    } else if (tasks.length % 3 === 1 && currentPageTasks > 1) {
       this.setState({
         currentPageTasks: currentPageTasks - 1
       });
@@ -231,7 +238,7 @@ class App extends Component {
       this.setState({
         currentPageDev: 1
       });
-    } else if (devTasks.length % 3 === 1 && currentPageDev !== 1) {
+    } else if (devTasks.length % 3 === 1 && currentPageDev > 1) {
       this.setState({
         currentPageDev: currentPageDev - 1
       });
@@ -241,7 +248,7 @@ class App extends Component {
       this.setState({
         currentPageVerify: 1
       });
-    } else if (verifyTasks.length % 3 === 1 && currentPageVerify !== 1) {
+    } else if (verifyTasks.length % 3 === 1 && currentPageVerify > 1) {
       this.setState({
         currentPageVerify: currentPageVerify - 1
       });
@@ -251,7 +258,7 @@ class App extends Component {
       this.setState({
         currentPageDone: 1
       });
-    } else if (done.length % 3 === 1 && currentPageDone !== 1) {
+    } else if (done.length % 3 === 1 && currentPageDone > 1) {
       this.setState({
         currentPageDone: currentPageDone - 1
       });
@@ -290,7 +297,7 @@ class App extends Component {
       this.setState({
         currentPageTasks: 1
       });
-    } else if (tasks.length % 3 === 1 && currentPageTasks !== 1) {
+    } else if (tasks.length % 3 === 1 && currentPageTasks > 1) {
       this.setState({
         currentPageTasks: currentPageTasks - 1
       });
@@ -300,7 +307,7 @@ class App extends Component {
       this.setState({
         currentPageDone: 1
       });
-    } else if (done.length % 3 === 1 && currentPageDone !== 1) {
+    } else if (done.length % 3 === 1 && currentPageDone > 1) {
       this.setState({
         currentPageDone: currentPageDone - 1
       });
@@ -559,6 +566,8 @@ class App extends Component {
         deadline={task.deadlineTask}
         priority={task.priority}
         key={task.id}
+        acceptRefuseStatus={this.state.acceptRefuse}
+        acceptRefuse={this.handleAcceptRefuse}
         name={task.name}
         delete={() => this.handleDelete(task.id, this.state.tasks)}
         done={() =>
@@ -612,6 +621,179 @@ class App extends Component {
 
     return (
       <div className="App">
+        <div className="bgImage" />
+        <svg className="blobCont">
+          <image
+            xlinkHref="https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-0.3.5&s=e20bc3d490c974d9ea190e05c47962f5&auto=format&fit=crop&w=634&q=80"
+            mask="url(#mask)"
+            width="100%"
+            height="100%"
+            preserveAspectRatio="xMidYMid slice"
+          />
+          <defs>
+            <filter id="gooey" height="130%">
+              <feGaussianBlur
+                in="SourceGraphic"
+                stdDeviation="15"
+                result="blur"
+              />
+              <feColorMatrix
+                in="blur"
+                mode="matrix"
+                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+                result="goo"
+              />
+            </filter>
+          </defs>
+          <mask id="mask" x="0" y="0">
+            <g style={{ filter: "url(#gooey)" }}>
+              <circle
+                className="blob"
+                cx="10%"
+                cy="10%"
+                r="40"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="50%"
+                cy="10%"
+                r="20"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="17%"
+                cy="15%"
+                r="30"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="90%"
+                cy="20%"
+                r="50"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="30%"
+                cy="25%"
+                r="10"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="50%"
+                cy="60%"
+                r="40"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="70%"
+                cy="90%"
+                r="10"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="90%"
+                cy="60%"
+                r="20"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="30%"
+                cy="90%"
+                r="40"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="10%"
+                cy="10%"
+                r="20"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="50%"
+                cy="10%"
+                r="20"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="17%"
+                cy="15%"
+                r="30"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="40%"
+                cy="20%"
+                r="40"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="30%"
+                cy="25%"
+                r="30"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="80%"
+                cy="60%"
+                r="50"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="17%"
+                cy="10%"
+                r="50"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="40%"
+                cy="60%"
+                r="20"
+                fill="white"
+                stroke="white"
+              />
+              <circle
+                className="blob"
+                cx="10%"
+                cy="50%"
+                r="30"
+                fill="white"
+                stroke="white"
+              />
+            </g>
+          </mask>
+        </svg>
         <div className="InputArea">
           <h2>Your Scrum Board</h2>
           <div className="inputField">
@@ -726,8 +908,8 @@ class App extends Component {
                 id="tasksPerPage"
               >
                 <option value="3">3</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
+                <option value="6">6</option>
+                <option value="9">9</option>
               </select>
             </label>
           </div>
@@ -735,8 +917,8 @@ class App extends Component {
 
         <hr />
 
-        <div className="row" style={{ margin: 0 }}>
-          <div className="col-xl-3" style={{ borderRight: "2px solid black" }}>
+        <div className="row">
+          <div className="col-xl-3">
             <div className="TasksToDoHeader">
               <h2
                 style={this.state.tasks.length === 30 ? { color: "red" } : null}
@@ -784,7 +966,7 @@ class App extends Component {
             <div className="TasksToDoContainers">{tasksToDo}</div>
           </div>
 
-          <div className="col-xl-3" style={{ borderRight: "2px solid black" }}>
+          <div className="col-xl-3">
             <div className="TasksToDoHeader">
               <h2
                 style={
@@ -819,7 +1001,7 @@ class App extends Component {
             <div className="TasksToDoContainers">{dev}</div>
           </div>
 
-          <div className="col-xl-3" style={{ borderRight: "2px solid black" }}>
+          <div className="col-xl-3">
             <div className="TasksToDoHeader">
               <h2
                 style={

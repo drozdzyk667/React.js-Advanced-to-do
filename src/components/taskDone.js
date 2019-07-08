@@ -3,7 +3,10 @@ import React from "react";
 const TaskDone = props => {
   return (
     <div>
-      <div className="singleTask" style={props.taskColor}>
+      <div
+        className={props.priority ? "singleTaskPriority" : "singleTask"}
+        style={props.taskColor}
+      >
         <div className="control-buttons">
           <button className="btn btn-danger" onClick={props.deleteDone}>
             ✘
