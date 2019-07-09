@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/React.js-scrum-board/precache-manifest.20d15453b984cd655c7ea346ef9adf04.js"
+  "/React.js-scrum-board/precache-manifest.db13e55491359e552f03ca16a48c076a.js"
 );
 
 self.addEventListener('message', (event) => {
