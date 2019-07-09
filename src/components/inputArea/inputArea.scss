@@ -1,0 +1,383 @@
+$desktop: 800px;
+$desktopBigger: 1350px;
+
+@mixin desktop {
+  @media (min-width: #{$desktop}) {
+    @content;
+  }
+}
+
+@mixin desktopBigger {
+  @media (min-width: #{$desktopBigger}) {
+    @content;
+  }
+}
+
+.InputArea {
+  position: relative;
+  margin: 30px auto 50px auto;
+  border-radius: 2vw;
+  height: 360px;
+  width: 90%;
+  padding-bottom: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-image: linear-gradient(
+    to right bottom,
+    #051937,
+    #004d7a,
+    #008793,
+    #00bf72,
+    #a8eb12
+  );
+  box-shadow: 0px 0px 20px 2px rgb(255, 255, 255);
+
+  @include desktop {
+    justify-content: left;
+    position: relative;
+    margin: 30px auto 50px auto;
+    border-radius: 2vw;
+    height: 360px;
+    width: 90%;
+    padding-bottom: 100px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-image: linear-gradient(
+      to right bottom,
+      #051937,
+      #004d7a,
+      #008793,
+      #00bf72,
+      #a8eb12
+    );
+    box-shadow: 0px 0px 20px 2px rgb(255, 255, 255);
+  }
+
+  h2 {
+    color: white;
+    position: absolute;
+    left: 30px;
+    top: 10px;
+    font-family: "Bahianita", cursive;
+    font-size: 60px;
+
+    @include desktop {
+      color: white;
+      position: absolute;
+      left: 30px;
+      top: 10px;
+      font-family: "Bahianita", cursive;
+      font-size: 70px;
+    }
+  }
+
+  img {
+    position: absolute;
+    width: 0px;
+    height: 00px;
+    left: 75%;
+    top: 50%;
+    opacity: 0;
+
+    @include desktop {
+      position: absolute;
+      width: 200px;
+      height: 150px;
+      left: 75%;
+      top: 50%;
+      opacity: 1;
+    }
+
+    @include desktopBigger {
+      position: absolute;
+      width: 380px;
+      height: 290px;
+      left: 70%;
+      top: 15%;
+      opacity: 1;
+    }
+  }
+
+  // input task field
+  .inputField {
+    padding-top: 40px;
+    padding-left: 80px;
+
+    // task field
+    .inp {
+      position: absolute;
+      top: 180px;
+      left: 15%;
+      width: 240px;
+      max-width: 300px;
+
+      @include desktop {
+        position: absolute;
+        top: 160px;
+        left: 150px;
+        width: 300px;
+        max-width: 350px;
+      }
+
+      .label {
+        position: absolute;
+        top: 16px;
+        left: 0;
+        font-size: 18px;
+        color: #9ca2af;
+        font-weight: 500;
+        transform-origin: 0 0;
+        transition: all 0.2s ease;
+      }
+
+      .border {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        width: 100%;
+        background: #0077ff;
+        transform: scaleX(0);
+        transform-origin: 0 0;
+        transition: all 0.15s ease;
+      }
+      input {
+        width: 100%;
+        border: 0;
+        font-family: inherit;
+        padding: 20px 10px 10px;
+        height: 48px;
+        font-size: 20px;
+        font-weight: 500;
+        border-bottom: 2px solid #9ca2af;
+        background: none;
+        border-radius: 0;
+        color: #ffffff;
+        transition: all 0.15s ease;
+        &:hover {
+          background: rgba(#223254, 0.03);
+        }
+        &:not(:placeholder-shown) {
+          + span {
+            color: #5a667f;
+            transform: translateY(-30px) scale(0.75);
+          }
+        }
+        &:focus {
+          background: none;
+          outline: none;
+          border-bottom: 2px solid #0077ff;
+          + span {
+            color: #0077ff;
+            transform: translateY(-30px) scale(0.75);
+            .border {
+              transform: scaleX(1);
+            }
+          }
+        }
+      }
+    }
+
+    // priority checked
+    .squaredCheckbox {
+      position: absolute;
+      left: 45%;
+      top: 240px;
+
+      @include desktop {
+        position: relative;
+        left: 290px;
+        top: 180px;
+      }
+    }
+
+    .squaredCheckbox label {
+      width: 17px;
+      height: 17px;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 4px;
+      box-shadow: inset 2px 2px 5px rgba(65, 40, 40, 0.5),
+        0px 1px 0px rgba(255, 255, 255, 0.4);
+    }
+    .squaredCheckbox label:after {
+      content: "";
+      width: 10px;
+      height: 6px;
+      position: absolute;
+      top: 5px;
+      left: 4px;
+      border: 3px solid #ffffff;
+      border-top: none;
+      border-right: none;
+      background: transparent;
+      opacity: 0;
+      -webkit-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+    }
+    .squaredCheckbox input[type="checkbox"] {
+      visibility: hidden;
+    }
+
+    .squaredCheckbox i {
+      font-size: 14px;
+      color: white;
+      position: relative;
+      left: 25px;
+      top: -26px;
+      display: block;
+      width: 80px;
+    }
+
+    .squaredCheckbox input[type="checkbox"]:checked + label:after {
+      opacity: 1;
+    }
+  }
+
+  // select type
+  .selectBox {
+    position: absolute;
+    top: 90px;
+    left: 10%;
+
+    @include desktop {
+      position: relative;
+      top: 20px;
+      left: 20%;
+    }
+
+    p {
+      text-align: left;
+      padding: 0;
+      margin: 0;
+      color: white;
+    }
+
+    select {
+      padding: 4px;
+      font-size: 16px;
+      border-radius: 10px;
+      color: rgb(255, 255, 255);
+      outline: none;
+      cursor: pointer;
+      width: 110px;
+
+      @include desktop {
+        padding: 4px;
+        font-size: 16px;
+        border-radius: 10px;
+        color: rgb(255, 255, 255);
+        outline: none;
+        cursor: pointer;
+        width: 110px;
+      }
+
+      &:hover {
+        background: #444343d2;
+      }
+
+      option {
+        background: white;
+        color: black;
+      }
+    }
+  }
+
+  // calendar deadline
+  .deadlineDate {
+    position: absolute;
+    top: 90px;
+    left: 48%;
+
+    @include desktop {
+      position: relative;
+      top: 20px;
+      left: 23%;
+    }
+
+    p {
+      text-align: left;
+      padding: 0;
+      margin: 0;
+      color: white;
+    }
+    input[type="date"] {
+      border: 1px solid #c4c4c4;
+      border-radius: 5px;
+      background-color: #fff;
+      padding: 3px 5px;
+      box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
+      width: 140px;
+
+      background: #fff
+        url("https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png")
+        97% 50% no-repeat;
+
+      @include desktop {
+        border: 1px solid #c4c4c4;
+        border-radius: 5px;
+        background-color: #fff;
+        padding: 3px 5px;
+        box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
+        width: 160px;
+
+        background: #fff
+          url("https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png")
+          97% 50% no-repeat;
+      }
+    }
+    [type="date"]::-webkit-inner-spin-button {
+      display: none;
+    }
+    [type="date"]::-webkit-calendar-picker-indicator {
+      opacity: 0;
+    }
+  }
+
+  // add task button
+  .AddBtnContainer {
+    #addBtn {
+      position: relative;
+      left: -50px;
+      top: 260px;
+      width: 150px;
+      transition: 0.5s;
+      &:hover {
+        transform: scale(1.1);
+      }
+
+      @include desktop {
+        position: relative;
+        left: -20px;
+        top: 240px;
+        width: 150px;
+        transition: 0.5s;
+      }
+    }
+
+    p {
+      position: relative;
+      top: 190px;
+      left: -30%;
+      font-weight: 700;
+      color: rgb(255, 0, 0);
+      font-style: oblique;
+      font-size: large;
+
+      @include desktop {
+        position: absolute;
+        top: 220px;
+        left: 180px;
+        font-weight: 700;
+        color: rgb(255, 0, 0);
+        font-style: oblique;
+        font-size: large;
+      }
+    }
+  }
+}
