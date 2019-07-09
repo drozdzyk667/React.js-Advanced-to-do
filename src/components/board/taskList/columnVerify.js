@@ -35,7 +35,7 @@ const ColumnVerify = props => {
         <ReactCSSTransitionGroup
           transitionName="fade"
           transitionEnterTimeout={300}
-          transitionLeaveTimeout={100}
+          transitionLeaveTimeout={300}
         >
           {props.verify}
         </ReactCSSTransitionGroup>
