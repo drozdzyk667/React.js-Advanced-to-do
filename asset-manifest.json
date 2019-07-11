@@ -1,16 +1,17 @@
 {
   "files": {
-    "main.css": "/React.js-scrum-board/static/css/main.6b6c5d2d.chunk.css",
-    "main.js": "/React.js-scrum-board/static/js/main.7771dbd1.chunk.js",
-    "main.js.map": "/React.js-scrum-board/static/js/main.7771dbd1.chunk.js.map",
+    "main.css": "/React.js-scrum-board/static/css/main.ad3b0ebe.chunk.css",
+    "main.js": "/React.js-scrum-board/static/js/main.cf4aba5b.chunk.js",
+    "main.js.map": "/React.js-scrum-board/static/js/main.cf4aba5b.chunk.js.map",
     "runtime~main.js": "/React.js-scrum-board/static/js/runtime~main.04017835.js",
     "runtime~main.js.map": "/React.js-scrum-board/static/js/runtime~main.04017835.js.map",
     "static/js/2.680d7f32.chunk.js": "/React.js-scrum-board/static/js/2.680d7f32.chunk.js",
     "static/js/2.680d7f32.chunk.js.map": "/React.js-scrum-board/static/js/2.680d7f32.chunk.js.map",
     "index.html": "/React.js-scrum-board/index.html",
-    "precache-manifest.2a680427dc1286b4e1087c3625c0ad5d.js": "/React.js-scrum-board/precache-manifest.2a680427dc1286b4e1087c3625c0ad5d.js",
+    "precache-manifest.29d3fae29738a2c0d5579abebacd6b4f.js": "/React.js-scrum-board/precache-manifest.29d3fae29738a2c0d5579abebacd6b4f.js",
     "service-worker.js": "/React.js-scrum-board/service-worker.js",
-    "static/css/main.6b6c5d2d.chunk.css.map": "/React.js-scrum-board/static/css/main.6b6c5d2d.chunk.css.map",
+    "static/css/main.ad3b0ebe.chunk.css.map": "/React.js-scrum-board/static/css/main.ad3b0ebe.chunk.css.map",
+    "static/media/App.scss": "/React.js-scrum-board/static/media/background.0f5987c9.png",
     "static/media/work-table.png": "/React.js-scrum-board/static/media/work-table.b88d4dfe.png"
   }
 }
