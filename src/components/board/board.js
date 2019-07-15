@@ -51,53 +51,53 @@ class Board extends Component {
     const pageNumbers4 = [];
 
     switch (filterType) {
-      case "review":
-        filtertaskTasks = tasks.filter(task => task.type === "review");
-        filtertaskDev = devTasks.filter(task => task.type === "review");
-        filtertaskVerify = verifyTasks.filter(task => task.type === "review");
-        filtertaskDone = done.filter(task => task.type === "review");
+      case "Review":
+        filtertaskTasks = tasks.filter(task => task.type === "Review");
+        filtertaskDev = devTasks.filter(task => task.type === "Review");
+        filtertaskVerify = verifyTasks.filter(task => task.type === "Review");
+        filtertaskDone = done.filter(task => task.type === "Review");
         break;
-      case "code":
-        filtertaskTasks = tasks.filter(task => task.type === "code");
-        filtertaskDev = devTasks.filter(task => task.type === "code");
-        filtertaskVerify = verifyTasks.filter(task => task.type === "code");
-        filtertaskDone = done.filter(task => task.type === "code");
+      case "Code":
+        filtertaskTasks = tasks.filter(task => task.type === "Code");
+        filtertaskDev = devTasks.filter(task => task.type === "Code");
+        filtertaskVerify = verifyTasks.filter(task => task.type === "Code");
+        filtertaskDone = done.filter(task => task.type === "Code");
         break;
-      case "test":
-        filtertaskTasks = tasks.filter(task => task.type === "test");
-        filtertaskDev = devTasks.filter(task => task.type === "test");
-        filtertaskVerify = verifyTasks.filter(task => task.type === "test");
-        filtertaskDone = done.filter(task => task.type === "test");
+      case "Test":
+        filtertaskTasks = tasks.filter(task => task.type === "Test");
+        filtertaskDev = devTasks.filter(task => task.type === "Test");
+        filtertaskVerify = verifyTasks.filter(task => task.type === "Test");
+        filtertaskDone = done.filter(task => task.type === "Test");
         break;
-      case "doc":
-        filtertaskTasks = tasks.filter(task => task.type === "doc");
-        filtertaskDev = devTasks.filter(task => task.type === "doc");
-        filtertaskVerify = verifyTasks.filter(task => task.type === "doc");
-        filtertaskDone = done.filter(task => task.type === "doc");
+      case "Document":
+        filtertaskTasks = tasks.filter(task => task.type === "Document");
+        filtertaskDev = devTasks.filter(task => task.type === "Document");
+        filtertaskVerify = verifyTasks.filter(task => task.type === "Document");
+        filtertaskDone = done.filter(task => task.type === "Document");
         break;
-      case "analyze":
-        filtertaskTasks = tasks.filter(task => task.type === "analyze");
-        filtertaskDev = devTasks.filter(task => task.type === "analyze");
-        filtertaskVerify = verifyTasks.filter(task => task.type === "analyze");
-        filtertaskDone = done.filter(task => task.type === "analyze");
+      case "Analyze":
+        filtertaskTasks = tasks.filter(task => task.type === "Analyze");
+        filtertaskDev = devTasks.filter(task => task.type === "Analyze");
+        filtertaskVerify = verifyTasks.filter(task => task.type === "Analyze");
+        filtertaskDone = done.filter(task => task.type === "Analyze");
         break;
-      case "fix":
-        filtertaskTasks = tasks.filter(task => task.type === "fix");
-        filtertaskDev = devTasks.filter(task => task.type === "fix");
-        filtertaskVerify = verifyTasks.filter(task => task.type === "fix");
-        filtertaskDone = done.filter(task => task.type === "fix");
+      case "Fix":
+        filtertaskTasks = tasks.filter(task => task.type === "Fix");
+        filtertaskDev = devTasks.filter(task => task.type === "Fix");
+        filtertaskVerify = verifyTasks.filter(task => task.type === "Fix");
+        filtertaskDone = done.filter(task => task.type === "Fix");
         break;
-      case "others":
-        filtertaskTasks = tasks.filter(task => task.type === "others");
-        filtertaskDev = devTasks.filter(task => task.type === "others");
-        filtertaskVerify = verifyTasks.filter(task => task.type === "others");
-        filtertaskDone = done.filter(task => task.type === "others");
+      case "Others":
+        filtertaskTasks = tasks.filter(task => task.type === "Others");
+        filtertaskDev = devTasks.filter(task => task.type === "Others");
+        filtertaskVerify = verifyTasks.filter(task => task.type === "Others");
+        filtertaskDone = done.filter(task => task.type === "Others");
         break;
       default:
-        filtertaskTasks = tasks.filter(task => task.type !== "all");
-        filtertaskDev = devTasks.filter(task => task.type !== "all");
-        filtertaskVerify = verifyTasks.filter(task => task.type !== "all");
-        filtertaskDone = done.filter(task => task.type !== "all");
+        filtertaskTasks = tasks.filter(task => task.type !== "All");
+        filtertaskDev = devTasks.filter(task => task.type !== "All");
+        filtertaskVerify = verifyTasks.filter(task => task.type !== "All");
+        filtertaskDone = done.filter(task => task.type !== "All");
         break;
     }
 

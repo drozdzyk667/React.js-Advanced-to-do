@@ -9,8 +9,8 @@ import "./App.scss";
 class App extends Component {
   state = {
     inputValue: "",
-    taskType: "review",
-    filterType: "all",
+    taskType: "Review",
+    filterType: "All",
     taskColor: { backgroundColor: "#57A1C4" },
     filterColor: { backgroundColor: "#FAA" },
     AddActive: false,
@@ -34,7 +34,7 @@ class App extends Component {
         name: "function to solve problem with ...",
         priority: true,
         deadlineTask: "2019-09-10",
-        type: "code",
+        type: "Code",
         taskColor: { backgroundColor: "#9370DB" }
       },
       {
@@ -42,7 +42,7 @@ class App extends Component {
         name: "write report about ... issue",
         priority: false,
         deadlineTask: "2019-08-22",
-        type: "doc",
+        type: "Document",
         taskColor: { backgroundColor: "#92C1FF" }
       }
     ],
@@ -55,7 +55,7 @@ class App extends Component {
         priority: false,
         deadlineTask: "2019-08-22",
         passedTime: "2019-06-22, 11:48 PM",
-        type: "code",
+        type: "Code",
         taskColor: { backgroundColor: "#9370DB" }
       }
     ]
@@ -176,7 +176,7 @@ class App extends Component {
           inputValue: "",
           priority: false,
           date: this.state.dateNow,
-          taskType: "review",
+          taskType: "Review",
           taskColor: { backgroundColor: "#57A1C4" },
           AddActive: false
         });
@@ -314,40 +314,23 @@ class App extends Component {
       taskType: event.target.value
     });
 
-    switch (event.target.value) {
-      case "review":
-        return this.setState({
-          taskColor: { backgroundColor: "#57A1C4" }
+    let taskTypeColor = [
+      { type: "Review", value: "#57A1C4" },
+      { type: "Code", value: "#9370DB" },
+      { type: "Test", value: "#CBC8C8" },
+      { type: "Document", value: "#92C1FF" },
+      { type: "Analyze", value: "#68D384" },
+      { type: "Fix", value: "#E5AE3A" },
+      { type: "Others", value: "#8F9A9F" }
+    ];
+
+    taskTypeColor.forEach(color => {
+      if (event.target.value === color.type) {
+        this.setState({
+          taskColor: { backgroundColor: color.value }
         });
-      case "code":
-        return this.setState({
-          taskColor: { backgroundColor: "#9370DB" }
-        });
-      case "test":
-        return this.setState({
-          taskColor: { backgroundColor: "#CBC8C8" }
-        });
-      case "doc":
-        return this.setState({
-          taskColor: { backgroundColor: "#92C1FF" }
-        });
-      case "analyze":
-        return this.setState({
-          taskColor: { backgroundColor: "#68D384" }
-        });
-      case "fix":
-        return this.setState({
-          taskColor: { backgroundColor: "#E5AE3A" }
-        });
-      case "others":
-        return this.setState({
-          taskColor: { backgroundColor: "#8F9A9F" }
-        });
-      default:
-        return this.setState({
-          taskColor: { backgroundColor: "black" }
-        });
-    }
+      }
+    });
   };
 
   handleFilterAll = event => {

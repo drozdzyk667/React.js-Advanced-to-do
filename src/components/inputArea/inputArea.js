@@ -3,6 +3,21 @@ import "./inputArea.scss";
 import workTable from "./work-table.png";
 
 const InputArea = props => {
+  let options = [
+    "Review",
+    "Code",
+    "Test",
+    "Document",
+    "Analyze",
+    "Fix",
+    "Others"
+  ];
+  const selectInput = options.map(option => (
+    <option key={option} value={option}>
+      {option}
+    </option>
+  ));
+
   return (
     <div className="InputArea">
       <h2>Your Scrum Board</h2>
@@ -60,13 +75,7 @@ const InputArea = props => {
             onChange={props.select}
             id="choice"
           >
-            <option value="review">Review</option>
-            <option value="code">Code</option>
-            <option value="test">Test</option>
-            <option value="doc">Document</option>
-            <option value="analyze">Analyze</option>
-            <option value="fix">Fix</option>
-            <option value="others">Others</option>
+            {selectInput}
           </select>
         </label>
       </div>

@@ -1,6 +1,23 @@
 import React from "react";
 import "./filtering.scss";
 
+let options = [
+  "All",
+  "Review",
+  "Code",
+  "Test",
+  "Document",
+  "Analyze",
+  "Fix",
+  "Others"
+];
+
+const selectInput = options.map(option => (
+  <option key={option} value={option}>
+    {option}
+  </option>
+));
+
 const Filtering = props => {
   return (
     <div className="filtering">
@@ -12,14 +29,7 @@ const Filtering = props => {
             onChange={props.filterAll}
             id="filter"
           >
-            <option value="all">All</option>
-            <option value="review">Review</option>
-            <option value="code">Code</option>
-            <option value="test">Test</option>
-            <option value="doc">Document</option>
-            <option value="analyze">Analyze</option>
-            <option value="fix">Fix</option>
-            <option value="others">Others</option>
+            {selectInput}
           </select>
         </label>
       </div>
