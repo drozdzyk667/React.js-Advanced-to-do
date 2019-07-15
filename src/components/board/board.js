@@ -50,56 +50,30 @@ class Board extends Component {
     const pageNumbers3 = [];
     const pageNumbers4 = [];
 
-    switch (filterType) {
-      case "Review":
-        filtertaskTasks = tasks.filter(task => task.type === "Review");
-        filtertaskDev = devTasks.filter(task => task.type === "Review");
-        filtertaskVerify = verifyTasks.filter(task => task.type === "Review");
-        filtertaskDone = done.filter(task => task.type === "Review");
-        break;
-      case "Code":
-        filtertaskTasks = tasks.filter(task => task.type === "Code");
-        filtertaskDev = devTasks.filter(task => task.type === "Code");
-        filtertaskVerify = verifyTasks.filter(task => task.type === "Code");
-        filtertaskDone = done.filter(task => task.type === "Code");
-        break;
-      case "Test":
-        filtertaskTasks = tasks.filter(task => task.type === "Test");
-        filtertaskDev = devTasks.filter(task => task.type === "Test");
-        filtertaskVerify = verifyTasks.filter(task => task.type === "Test");
-        filtertaskDone = done.filter(task => task.type === "Test");
-        break;
-      case "Document":
-        filtertaskTasks = tasks.filter(task => task.type === "Document");
-        filtertaskDev = devTasks.filter(task => task.type === "Document");
-        filtertaskVerify = verifyTasks.filter(task => task.type === "Document");
-        filtertaskDone = done.filter(task => task.type === "Document");
-        break;
-      case "Analyze":
-        filtertaskTasks = tasks.filter(task => task.type === "Analyze");
-        filtertaskDev = devTasks.filter(task => task.type === "Analyze");
-        filtertaskVerify = verifyTasks.filter(task => task.type === "Analyze");
-        filtertaskDone = done.filter(task => task.type === "Analyze");
-        break;
-      case "Fix":
-        filtertaskTasks = tasks.filter(task => task.type === "Fix");
-        filtertaskDev = devTasks.filter(task => task.type === "Fix");
-        filtertaskVerify = verifyTasks.filter(task => task.type === "Fix");
-        filtertaskDone = done.filter(task => task.type === "Fix");
-        break;
-      case "Others":
-        filtertaskTasks = tasks.filter(task => task.type === "Others");
-        filtertaskDev = devTasks.filter(task => task.type === "Others");
-        filtertaskVerify = verifyTasks.filter(task => task.type === "Others");
-        filtertaskDone = done.filter(task => task.type === "Others");
-        break;
-      default:
+    let taskTypes = [
+      { name: "Review" },
+      { name: "Code" },
+      { name: "Test" },
+      { name: "Document" },
+      { name: "Analyze" },
+      { name: "Fix" },
+      { name: "Others" }
+    ];
+
+    taskTypes.forEach(type => {
+      if (filterType === type.name) {
+        console.log(type.name);
+        filtertaskTasks = tasks.filter(task => task.type === type.name);
+        filtertaskDev = devTasks.filter(task => task.type === type.name);
+        filtertaskVerify = verifyTasks.filter(task => task.type === type.name);
+        filtertaskDone = done.filter(task => task.type === type.name);
+      } else if (filterType === "All") {
         filtertaskTasks = tasks.filter(task => task.type !== "All");
         filtertaskDev = devTasks.filter(task => task.type !== "All");
         filtertaskVerify = verifyTasks.filter(task => task.type !== "All");
         filtertaskDone = done.filter(task => task.type !== "All");
-        break;
-    }
+      }
+    });
 
     const currentTasks1 = this.PaginationHandle(
       currentPageTasks,
