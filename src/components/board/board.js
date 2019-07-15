@@ -62,7 +62,6 @@ class Board extends Component {
 
     taskTypes.forEach(type => {
       if (filterType === type.name) {
-        console.log(type.name);
         filtertaskTasks = tasks.filter(task => task.type === type.name);
         filtertaskDev = devTasks.filter(task => task.type === type.name);
         filtertaskVerify = verifyTasks.filter(task => task.type === type.name);
