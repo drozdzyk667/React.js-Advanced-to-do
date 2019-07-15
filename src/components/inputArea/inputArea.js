@@ -11,9 +11,9 @@ const InputArea = props => {
           <input
             id="inp"
             type="text"
-            name="draft"
-            value={props.draft}
-            onChange={props.input}
+            name="inputValue"
+            value={props.inputValue}
+            onChange={props.onChange}
             maxLength="30"
             placeholder="&nbsp;"
             onKeyPress={props.enter}
@@ -44,7 +44,7 @@ const InputArea = props => {
             Add ✚
           </button>
           <p>
-            {props.addActive && props.draft === ""
+            {props.addActive && props.inputValue === ""
               ? `Fill task field firstly`
               : null}
           </p>

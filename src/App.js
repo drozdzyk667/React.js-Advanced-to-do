@@ -8,7 +8,7 @@ import "./App.scss";
 
 class App extends Component {
   state = {
-    draft: "",
+    inputValue: "",
     taskType: "review",
     filterType: "all",
     taskColor: { backgroundColor: "#57A1C4" },
@@ -16,6 +16,7 @@ class App extends Component {
     AddActive: false,
     acceptRefuse: false,
     priority: false,
+    MAX_LIST_ITEMS_COUNT: 30,
     dateNow: null,
     date: "",
     fullDate: null,
@@ -83,11 +84,11 @@ class App extends Component {
     });
 
     if (month < 10) {
-      month = `0${month}`;
+      month = month.toString().padStart(2, 0);
     }
 
     if (day < 10) {
-      day = `0${day}`;
+      day = day.toString().padStart(2, 0);
     }
 
     this.setState({
@@ -121,9 +122,9 @@ class App extends Component {
     }
   };
 
-  handleInput = e => {
+  handleInput = event => {
     this.setState({
-      [e.target.name]: e.target.value
+      [event.target.name]: event.target.value
     });
   };
 
@@ -139,20 +140,27 @@ class App extends Component {
     });
   };
 
-  handleEnter = e => {
-    if (e.key === "Enter") {
+  handleEnter = event => {
+    if (event.key === "Enter") {
       this.handleAddTask();
     }
   };
 
   handleAddTask = () => {
-    const { draft, priority, date, taskType, taskColor } = this.state;
-    if (this.state.tasks.length < 30) {
+    const {
+      inputValue,
+      MAX_LIST_ITEMS_COUNT,
+      priority,
+      date,
+      taskType,
+      taskColor
+    } = this.state;
+    if (this.state.tasks.length < MAX_LIST_ITEMS_COUNT) {
       const tasks = [
         ...this.state.tasks,
         {
           id: Math.random() * this.state.tasks.length,
-          name: draft,
+          name: inputValue,
           priority: priority,
           deadlineTask: date,
           type: taskType,
@@ -162,10 +170,10 @@ class App extends Component {
         .sort(this.sortToDoTasks("priority"))
         .sort(this.sortToDoTasks("type"));
 
-      if (this.state.draft !== "") {
+      if (this.state.inputValue !== "") {
         this.setState({
           tasks: tasks.reverse(),
-          draft: "",
+          inputValue: "",
           priority: false,
           date: this.state.dateNow,
           taskType: "review",
@@ -193,7 +201,8 @@ class App extends Component {
       currentPageDev,
       currentPageDone,
       currentPageTasks,
-      currentPageVerify
+      currentPageVerify,
+      MAX_LIST_ITEMS_COUNT
     } = this.state;
 
     const filterTask = arrCopy.filter(task => task.id !== id);
@@ -207,62 +216,38 @@ class App extends Component {
       taskColor: taskColor
     };
 
-    if (firstArray === tasks && secondArray.length < 30) {
+    if (firstArray === tasks && secondArray.length < MAX_LIST_ITEMS_COUNT) {
       this.setState({
         tasks: filterTask,
         devTasks: [...secondArray, data]
       });
-    } else if (firstArray === devTasks && secondArray.length < 30) {
+    } else if (
+      firstArray === devTasks &&
+      secondArray.length < MAX_LIST_ITEMS_COUNT
+    ) {
       this.setState({
         devTasks: filterTask,
         verifyTasks: [...secondArray, data]
       });
-    } else if (firstArray === verifyTasks && secondArray.length < 30) {
+    } else if (
+      firstArray === verifyTasks &&
+      secondArray.length < MAX_LIST_ITEMS_COUNT
+    ) {
       this.setState({
         verifyTasks: filterTask,
         done: [...secondArray, data]
       });
     }
 
-    if (tasks.length === 4) {
-      this.setState({
-        currentPageTasks: 1
-      });
-    } else if (tasks.length % 3 === 1 && currentPageTasks > 1) {
-      this.setState({
-        currentPageTasks: currentPageTasks - 1
-      });
-    }
-
-    if (devTasks.length === 4) {
-      this.setState({
-        currentPageDev: 1
-      });
-    } else if (devTasks.length % 3 === 1 && currentPageDev > 1) {
-      this.setState({
-        currentPageDev: currentPageDev - 1
-      });
-    }
-
-    if (verifyTasks.length === 4) {
-      this.setState({
-        currentPageVerify: 1
-      });
-    } else if (verifyTasks.length % 3 === 1 && currentPageVerify > 1) {
-      this.setState({
-        currentPageVerify: currentPageVerify - 1
-      });
-    }
-
-    if (done.length === 4) {
-      this.setState({
-        currentPageDone: 1
-      });
-    } else if (done.length % 3 === 1 && currentPageDone > 1) {
-      this.setState({
-        currentPageDone: currentPageDone - 1
-      });
-    }
+    this.setState({
+      currentPageTasks: this.PaginationReturnPage(tasks, currentPageTasks),
+      currentPageDev: this.PaginationReturnPage(devTasks, currentPageDev),
+      currentPageVerify: this.PaginationReturnPage(
+        verifyTasks,
+        currentPageVerify
+      ),
+      currentPageDone: this.PaginationReturnPage(done, currentPageDone)
+    });
   };
 
   sortToDoTasks = property => {
@@ -293,29 +278,14 @@ class App extends Component {
       });
     }
 
-    if (tasks.length === 4) {
-      this.setState({
-        currentPageTasks: 1
-      });
-    } else if (tasks.length % 3 === 1 && currentPageTasks > 1) {
-      this.setState({
-        currentPageTasks: currentPageTasks - 1
-      });
-    }
-
-    if (done.length === 4) {
-      this.setState({
-        currentPageDone: 1
-      });
-    } else if (done.length % 3 === 1 && currentPageDone > 1) {
-      this.setState({
-        currentPageDone: currentPageDone - 1
-      });
-    }
+    this.setState({
+      currentPageTasks: this.PaginationReturnPage(tasks, currentPageTasks),
+      currentPageDone: this.PaginationReturnPage(done, currentPageDone)
+    });
   };
 
-  handleDeleteAll = e => {
-    const id = e.target.id;
+  handleDeleteAll = event => {
+    const id = event.target.id;
     if (id === "tasks") {
       this.setState({
         [id]: [],
@@ -329,12 +299,22 @@ class App extends Component {
     }
   };
 
-  handleSelect = e => {
+  PaginationReturnPage = (array, pageTasks) => {
+    if (array.length === 4) {
+      return (pageTasks = 1);
+    } else if (array.length % 3 === 1 && pageTasks > 1) {
+      return (pageTasks = pageTasks - 1);
+    } else {
+      return pageTasks;
+    }
+  };
+
+  handleSelect = event => {
     this.setState({
-      taskType: e.target.value
+      taskType: event.target.value
     });
 
-    switch (e.target.value) {
+    switch (event.target.value) {
       case "review":
         return this.setState({
           taskColor: { backgroundColor: "#57A1C4" }
@@ -370,9 +350,9 @@ class App extends Component {
     }
   };
 
-  handleFilterAll = e => {
+  handleFilterAll = event => {
     this.setState({
-      filterType: e.target.value,
+      filterType: event.target.value,
       currentPageTasks: 1,
       currentPageDev: 1,
       currentPageVerify: 1,
@@ -380,9 +360,9 @@ class App extends Component {
     });
   };
 
-  handleTasksPerPage = e => {
+  handleTasksPerPage = event => {
     this.setState({
-      tasksPerPage: e.target.value,
+      tasksPerPage: event.target.value,
       currentPageTasks: 1,
       currentPageDev: 1,
       currentPageVerify: 1,
@@ -396,9 +376,9 @@ class App extends Component {
         <Blobs />
 
         <InputArea
-          input={this.handleInput}
+          onChange={this.handleInput}
           enter={this.handleEnter}
-          draft={this.state.draft}
+          inputValue={this.state.inputValue}
           priority={this.state.priority}
           priorityStatus={this.handlePriority}
           addTask={this.handleAddTask}

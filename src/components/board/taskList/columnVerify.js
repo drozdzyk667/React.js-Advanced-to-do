@@ -1,7 +1,35 @@
 import React from "react";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import VerifiedTasks from "./taskElements/verifiedTasks";
 
 const ColumnVerify = props => {
+  const verify = props.currentTasks3.map(task => (
+    <VerifiedTasks
+      taskColor={task.taskColor}
+      taskType={task.type}
+      deadline={task.deadlineTask}
+      date={task.passedTime}
+      priority={task.priority}
+      key={task.id}
+      name={task.name}
+      done={() => props.handlePush(task.id, props.verifyTasks, props.done)}
+    />
+  ));
+
+  const renderPageNumbers = props.pageNumbers3.map(number => {
+    return (
+      <button
+        className="paginat btn btn-info btn-sm"
+        key={number}
+        id={number}
+        onClick={e => {
+          props.handleClickPage(e, props.verifyTasks);
+        }}
+      >
+        {number}
+      </button>
+    );
+  });
   return (
     <div className="col-xl-3">
       <div className="TasksToDoHeader">
@@ -18,7 +46,7 @@ const ColumnVerify = props => {
                 : { display: "block" }
             }
           >
-            {props.renderPageNumbers3}
+            {renderPageNumbers}
           </b>
         </div>
         <h3
@@ -37,7 +65,7 @@ const ColumnVerify = props => {
           transitionEnterTimeout={300}
           transitionLeaveTimeout={300}
         >
-          {props.verify}
+          {verify}
         </ReactCSSTransitionGroup>
       </div>
     </div>

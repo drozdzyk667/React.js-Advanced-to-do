@@ -1,8 +1,4 @@
 import React, { Component } from "react";
-import TaskToDo from "./taskElements/taskToDo";
-import DevTasks from "./taskElements/devTasks";
-import VerifiedTasks from "./taskElements/verifiedTasks";
-import TaskDone from "./taskElements/taskDone";
 import ColumnTasksToDo from "./taskList/columnToDo";
 import ColumnDev from "./taskList/columnDev";
 import ColumnVerify from "./taskList/columnVerify";
@@ -10,6 +6,21 @@ import ColumnDone from "./taskList/columnDone";
 import "./board.scss";
 
 class Board extends Component {
+  // Logic for displaying current tasks in pagination on each column
+  PaginationHandle = (pageTasks, perPage, filterTasks) => {
+    const indexOfLastTasks = pageTasks * perPage;
+    const indexOfFirstTasks = indexOfLastTasks - perPage;
+    let current1 = [...filterTasks];
+    return current1.slice(indexOfFirstTasks, indexOfLastTasks);
+  };
+
+  // Logic for displaying page numbers on each column
+  NumberOfPages = (filterTasks, perPage, array) => {
+    for (let i = 1; i <= Math.ceil([...filterTasks].length / perPage); i++) {
+      array.push(i);
+    }
+  };
+
   render() {
     const {
       filterType,
@@ -33,6 +44,11 @@ class Board extends Component {
     let filtertaskDev;
     let filtertaskVerify;
     let filtertaskDone;
+
+    const pageNumbers1 = [];
+    const pageNumbers2 = [];
+    const pageNumbers3 = [];
+    const pageNumbers4 = [];
 
     switch (filterType) {
       case "review":
@@ -85,188 +101,69 @@ class Board extends Component {
         break;
     }
 
-    // Logic for displaying current tasks in pagination on each column
-    const indexOfLastTasks = currentPageTasks * tasksPerPage;
-    const indexOfFirstTasks = indexOfLastTasks - tasksPerPage;
-    let current1 = [...filtertaskTasks];
-    const currentTasks = current1.slice(indexOfFirstTasks, indexOfLastTasks);
+    const currentTasks1 = this.PaginationHandle(
+      currentPageTasks,
+      tasksPerPage,
+      filtertaskTasks
+    );
+    const currentTasks2 = this.PaginationHandle(
+      currentPageDev,
+      tasksPerPage,
+      filtertaskDev
+    );
+    const currentTasks3 = this.PaginationHandle(
+      currentPageVerify,
+      tasksPerPage,
+      filtertaskVerify
+    );
+    const currentTasks4 = this.PaginationHandle(
+      currentPageDone,
+      tasksPerPage,
+      filtertaskDone
+    );
 
-    const indexOfLastDev = currentPageDev * tasksPerPage;
-    const indexOfFirstDev = indexOfLastDev - tasksPerPage;
-    let current2 = [...filtertaskDev];
-    const currentDev = current2.slice(indexOfFirstDev, indexOfLastDev);
+    this.NumberOfPages(filtertaskTasks, tasksPerPage, pageNumbers1);
+    this.NumberOfPages(filtertaskDev, tasksPerPage, pageNumbers2);
+    this.NumberOfPages(filtertaskVerify, tasksPerPage, pageNumbers3);
+    this.NumberOfPages(filtertaskDone, tasksPerPage, pageNumbers4);
 
-    const indexOfLastVerify = currentPageVerify * tasksPerPage;
-    const indexOfFirstVerify = indexOfLastVerify - tasksPerPage;
-    let current3 = [...filtertaskVerify];
-    const currentVerify = current3.slice(indexOfFirstVerify, indexOfLastVerify);
-
-    const indexOfLastDone = currentPageDone * tasksPerPage;
-    const indexOfFirstDone = indexOfLastDone - tasksPerPage;
-    let current4 = [...filtertaskDone];
-    const currentDone = current4.slice(indexOfFirstDone, indexOfLastDone);
-
-    // Logic for displaying page numbers on each column
-    const pageNumbers1 = [];
-    for (let i = 1; i <= Math.ceil(current1.length / tasksPerPage); i++) {
-      pageNumbers1.push(i);
-    }
-
-    const pageNumbers2 = [];
-    for (let i = 1; i <= Math.ceil(current2.length / tasksPerPage); i++) {
-      pageNumbers2.push(i);
-    }
-
-    const pageNumbers3 = [];
-    for (let i = 1; i <= Math.ceil(current3.length / tasksPerPage); i++) {
-      pageNumbers3.push(i);
-    }
-
-    const pageNumbers4 = [];
-    for (let i = 1; i <= Math.ceil(current4.length / tasksPerPage); i++) {
-      pageNumbers4.push(i);
-    }
-
-    const tasksToDo = currentTasks.map(task => (
-      <TaskToDo
-        taskColor={task.taskColor}
-        taskType={task.type}
-        deadline={task.deadlineTask}
-        priority={task.priority}
-        key={task.id}
-        acceptRefuseStatus={acceptRefuse}
-        acceptRefuse={handleAcceptRefuse}
-        name={task.name}
-        delete={() => handleDelete(task.id, tasks)}
-        done={() => handlePush(task.id, tasks, devTasks)}
-      />
-    ));
-
-    const dev = currentDev.map(task => (
-      <DevTasks
-        taskColor={task.taskColor}
-        taskType={task.type}
-        deadline={task.deadlineTask}
-        date={task.passedTime}
-        priority={task.priority}
-        key={task.id}
-        name={task.name}
-        done={() => handlePush(task.id, devTasks, verifyTasks)}
-      />
-    ));
-
-    const verify = currentVerify.map(task => (
-      <VerifiedTasks
-        taskColor={task.taskColor}
-        taskType={task.type}
-        deadline={task.deadlineTask}
-        date={task.passedTime}
-        priority={task.priority}
-        key={task.id}
-        name={task.name}
-        done={() => handlePush(task.id, verifyTasks, done)}
-      />
-    ));
-
-    const tasksDone = currentDone.map(task => (
-      <TaskDone
-        taskColor={task.taskColor}
-        taskType={task.type}
-        deadline={task.deadlineTask}
-        date={task.passedTime}
-        priority={task.priority}
-        key={task.id}
-        name={task.name}
-        deleteDone={() => handleDelete(task.id, done)}
-      />
-    ));
-
-    const renderPageNumbers1 = pageNumbers1.map(number => {
-      return (
-        <button
-          className="paginat btn btn-info btn-sm"
-          key={number}
-          id={number}
-          onClick={e => {
-            handleClickPage(e, tasks);
-          }}
-        >
-          {number}
-        </button>
-      );
-    });
-
-    const renderPageNumbers2 = pageNumbers2.map(number => {
-      return (
-        <button
-          className="paginat btn btn-info btn-sm"
-          key={number}
-          id={number}
-          onClick={e => {
-            handleClickPage(e, devTasks);
-          }}
-        >
-          {number}
-        </button>
-      );
-    });
-
-    const renderPageNumbers3 = pageNumbers3.map(number => {
-      return (
-        <button
-          className="paginat btn btn-info btn-sm"
-          key={number}
-          id={number}
-          onClick={e => {
-            handleClickPage(e, verifyTasks);
-          }}
-        >
-          {number}
-        </button>
-      );
-    });
-
-    const renderPageNumbers4 = pageNumbers4.map(number => {
-      return (
-        <button
-          className="paginat btn btn-info btn-sm"
-          key={number}
-          id={number}
-          onClick={e => {
-            handleClickPage(e, done);
-          }}
-        >
-          {number}
-        </button>
-      );
-    });
     return (
       <div className="row">
         <ColumnTasksToDo
           tasks={this.props.tasks}
           pageNumbers1={pageNumbers1}
-          renderPageNumbers1={renderPageNumbers1}
-          tasksToDo={tasksToDo}
+          currentTasks1={currentTasks1}
           deleteAll={this.props.deleteAll}
+          acceptRefuseStatus={acceptRefuse}
+          acceptRefuse={handleAcceptRefuse}
+          handleDelete={handleDelete}
+          handlePush={handlePush}
+          devTasks={this.props.devTasks}
+          handleClickPage={handleClickPage}
         />
         <ColumnDev
           devTasks={this.props.devTasks}
           pageNumbers2={pageNumbers2}
-          renderPageNumbers2={renderPageNumbers2}
-          dev={dev}
+          handleClickPage={handleClickPage}
+          currentTasks2={currentTasks2}
+          handlePush={handlePush}
+          verifyTasks={this.props.verifyTasks}
         />
         <ColumnVerify
           verifyTasks={this.props.verifyTasks}
           pageNumbers3={pageNumbers3}
-          renderPageNumbers3={renderPageNumbers3}
-          verify={verify}
+          currentTasks3={currentTasks3}
+          done={this.props.done}
+          handlePush={handlePush}
+          handleClickPage={handleClickPage}
         />
         <ColumnDone
           done={this.props.done}
           pageNumbers4={pageNumbers4}
-          renderPageNumbers4={renderPageNumbers4}
-          tasksDone={tasksDone}
+          currentTasks4={currentTasks4}
           deleteAll={this.props.deleteAll}
+          handleClickPage={handleClickPage}
+          handleDelete={handleDelete}
         />
       </div>
     );
